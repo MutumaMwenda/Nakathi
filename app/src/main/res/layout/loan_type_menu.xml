@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/spinner_border"
+    android:orientation="vertical"
+    android:padding="@dimen/size_4">
+
+    <ImageView
+        android:id="@+id/imgDropDownMenuIcon"
+        android:layout_width="@dimen/size_16"
+        android:layout_height="@dimen/size_16"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/drop_down" />
+
+    <TextView
+        android:id="@+id/txtDropDownLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size_8"
+        android:layout_marginRight="@dimen/size_8"
+        android:layout_toStartOf="@id/imgDropDownMenuIcon"
+        android:layout_toLeftOf="@id/imgDropDownMenuIcon"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_18sp"
+        tools:text="Vehicle Loan" />
+
+</RelativeLayout>

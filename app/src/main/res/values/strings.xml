@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">NAKATHI SACCO</string>
+    <string name="single_app_name">NAKATHI</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">Nakathi </string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome">WELCOME TO</string>
+    <string name="guarantor1">Choose the first guarantor</string>
+    <string name="guarantor2">Choose the second guarantor</string>
+    <string name="guarantor3">Choose the third guarantor</string>
+
+    /**Login **/
+
+    <string name="id">Id Number</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">SIGNUP</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="ok">Ok</string>
+    <string name="network_not_connected"> There is no network connection right now. Please try again.</string>
+    <string name="failed_request">Please try again...</string>
+    <string name="id_number">ID Number</string>
+
+</resources>
