@@ -143,7 +143,7 @@ public class LogIn extends AppCompatActivity {
                     String phone_number = response.body().phone_number;
                     Log.e(TAG, "onResponse: "+id_number+' ' +fullnames+' '+email+' '+phone_number );
                     session.setLoggedIn(true);
-                    session.setIdNumber(id_number);
+                    session.setIdNumber(idNumber);
                     Intent intent= new Intent(LogIn.this, MainActivity.class);
                     startActivity(intent);
 

@@ -29,11 +29,8 @@
             android:textSize="@dimen/text_size_18sp" />
 
         <android.support.v7.widget.SearchView
-
-            android:id="@+id/action_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:actionViewClass="android.support.v7.widget.SearchView"
             android:icon="@android:drawable/ic_menu_search">
 
 

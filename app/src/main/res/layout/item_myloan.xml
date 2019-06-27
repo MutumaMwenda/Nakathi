@@ -1,0 +1,72 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/size_8"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:id="@+id/list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/size_8"
+        android:background="#ffffff">
+
+
+        <TextView
+            android:id="@+id/tv_loanDate"
+            android:layout_height="42dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/size_8"
+            android:text="3rd June 2019"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tv_loanAmount"
+            android:layout_width="0dp"
+            android:layout_weight="1"            android:layout_height="42dp"
+            android:layout_marginTop="@dimen/size_8"
+            android:text=" 12000"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tv_loanStatus"
+            android:layout_width="0dp"
+            android:layout_weight="1"            android:layout_height="42dp"
+            android:layout_marginTop="@dimen/size_8"
+            android:text="Pending"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tv_loanAction"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginTop="@dimen/size_8"
+            android:text="Delete"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+        <ImageButton
+            android:id="@+id/tv_loanView"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/size_8"
+            android:text="Infor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:backgroundTint="@color/white"
+            app:srcCompat="@drawable/ic_info"/>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,93 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            <TextView
+                android:id="@+id/myaccount0010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Success"
+                android:textColor="@android:color/white"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_gravity="center" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_50"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+                <FrameLayout
+                    android:id="@+id/fl_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/circle_pink">
+
+                    <ImageView
+                        android:id="@+id/item_image"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/ic_done" />
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/item_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/fl_image"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="Success"
+                    android:textColor="@color/black"
+                    android:textSize="18sp">
+
+                </TextView>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

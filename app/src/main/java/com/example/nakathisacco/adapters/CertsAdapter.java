@@ -17,6 +17,8 @@ import com.example.nakathisacco.Model.LoanApplicantModel;
 import com.example.nakathisacco.R;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,10 +57,15 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
 
         final CertsModel certsModel=certsModels.get(position);
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(certsModel.expiry_date ) ;
+        Date date = new Date(ts.getTime());
+        String strDate = formatter.format(date);
+
 
 
         holder.tvLicense.setText(certsModel.name);
-        holder.tvExpiryDate.setText("Expiry Date : "+certsModel.expiry_date);
+        holder.tvExpiryDate.setText("Expiry Date : "+strDate);
         int checkStatus = Integer.parseInt(certsModel.status);
         switch(checkStatus)
         {

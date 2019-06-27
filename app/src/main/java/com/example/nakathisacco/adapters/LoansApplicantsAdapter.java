@@ -16,6 +16,8 @@ import com.example.nakathisacco.Model.LoanApplicantModel;
 import com.example.nakathisacco.R;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,45 +57,20 @@ public class LoansApplicantsAdapter extends RecyclerView.Adapter<LoansApplicants
         final LoanApplicantModel loanApplicantModel= LoanApplicantModel.get(position);
 
 
-        holder.tvName.setText(loanApplicantModel.name);
-        holder.tvBorrowedOn.setText(loanApplicantModel.date_requested);
-        holder.tvLoan.setText(loanApplicantModel.amount);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(loanApplicantModel.date_requested ) ;
+        Date date = new Date(ts.getTime());
+        String strDate = formatter.format(date);
+
+
+        holder.tvName.setText("Name: "+loanApplicantModel.name);
+        holder.tvBorrowedOn.setText("Borrowed On: "+strDate);
+        holder.tvLoan.setText("Amount: "+loanApplicantModel.amount_requested);
          loan_id = loanApplicantModel.loan_id;
 
         holder.btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.e(TAG, "clicked "+loan_id );
-//                mService = Common.getAPI();
-//               AlertDialog alertDialog = new AlertDialog.Builder(mcontext).create();
-//                alertDialog.setTitle("Accept  Guarantor");
-//                alertDialog.setMessage("Are you sure you want to be a Guarantor of this Member Loan?");
-//                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes",
-//                        new DialogInterface.OnClickListener() {
-//                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                                Toast.makeText(mcontext, "success", Toast.LENGTH_SHORT).show();
-//                                approve();
-//
-//
-//
-//                            }
-//                        });
-//
-//                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                                ((ApproveLoanActivity)mcontext).finish();
-//
-//
-//                            }
-//                        });
-//
-//                alertDialog.show();
-//
-//
 
                         Intent intent = new Intent(mcontext, MemberDetails.class);
                         intent.putExtra(MemberDetails.MEMBER_ITEM_KEY, LoanApplicantModel.get(position));

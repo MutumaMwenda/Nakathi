@@ -72,9 +72,6 @@ public class GetGuarantorActivity extends AppCompatActivity implements View.OnCl
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mService = Common.getAPI();
         session = new Session(this);
-
-        searchView = findViewById(R.id.action_search);
-
         final String[] from = new String[]{"name"};
 
         final int[] to = new int[]{android.R.id.text1};

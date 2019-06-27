@@ -9,4 +9,16 @@ public class SavingsModel {
     @Expose
     public String amount;
 
+
+    @SerializedName("due_date")
+    @Expose
+    public String due_date;
+
+    @SerializedName("balance")
+    @Expose
+    public String balance;
+
+
+
+
 }

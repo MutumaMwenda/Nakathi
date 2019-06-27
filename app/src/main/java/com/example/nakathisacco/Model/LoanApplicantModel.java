@@ -10,9 +10,9 @@ public class LoanApplicantModel implements Parcelable {
     @SerializedName("loan_id")
     @Expose
     public String loan_id;
-    @SerializedName("amount")
+    @SerializedName("amount_requested")
     @Expose
-    public String amount;
+    public String amount_requested;
     @SerializedName("applicant_id")
     @Expose
     public String applicant_id;
@@ -25,10 +25,17 @@ public class LoanApplicantModel implements Parcelable {
     @SerializedName("status")
     @Expose
     public String status;
+    @SerializedName("noOfGuarantors")
+    @Expose
+    public String noOfGuarantors;
+    @SerializedName("amount_borrowed")
+    @Expose
+    public String amount_borrowed;
 
 
     public LoanApplicantModel() {
     }
+
 
 
     @Override
@@ -39,8 +46,10 @@ public class LoanApplicantModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.loan_id);
-        dest.writeString(this.amount);
+        dest.writeString(this.amount_borrowed);
+        dest.writeString(this.amount_requested);
         dest.writeString(this.applicant_id);
+        dest.writeString(this.noOfGuarantors);
         dest.writeString(this.name);
         dest.writeString(this.date_requested);
         dest.writeString(this.status);
@@ -50,13 +59,14 @@ public class LoanApplicantModel implements Parcelable {
 
     protected LoanApplicantModel(Parcel in) {
         this.loan_id = in.readString();
-        this.amount = in.readString();
+        this.amount_requested = in.readString();
+        this.amount_borrowed = in.readString();
         this.applicant_id = in.readString();
+        this.noOfGuarantors = in.readString();
         this.name = in.readString();
         this.date_requested = in.readString();
         this.status = in.readString();
     }
-
     public static final Parcelable.Creator<LoanApplicantModel> CREATOR = new Parcelable.Creator<LoanApplicantModel>() {
         @Override
         public LoanApplicantModel createFromParcel(Parcel source) {

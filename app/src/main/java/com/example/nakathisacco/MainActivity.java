@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,10 +22,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nakathisacco.Model.MembersModel;
+import com.example.nakathisacco.Model.MessageModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.ItemsDecoration;
@@ -42,12 +46,12 @@ public class MainActivity extends AppCompatActivity
     String fullnames;
 
     String[] web = {
-            "Apply Loan".toUpperCase(),
+            "My Loans".toUpperCase(),
             "Guarantees".toUpperCase(),
-            "Documents Status".toUpperCase(),
+            "Certifications".toUpperCase(),
             "Savings".toUpperCase(),
             "Balance".toUpperCase(),
-            "Statements".toUpperCase(),
+            "assets".toUpperCase(),
 
     };
 
@@ -64,7 +68,11 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView rvGrid;
     AlertDialog alertDialog;
-    TextView tvFullNames;
+    TextView tvFullNames,tvnoOfNotifications;
+    CoordinatorLayout mCoordinatorLayout;
+    FloatingActionButton noFloatingActionButton;
+    ImageView  notsImageView;
+
 
 
     @Override
@@ -85,7 +93,20 @@ public class MainActivity extends AppCompatActivity
         rvGrid.setAdapter(adapter);
 
         tvFullNames= findViewById(R.id.tv_fullnames);
+        tvnoOfNotifications= findViewById(R.id.tvNonotifications);
+        mCoordinatorLayout= findViewById(R.id.codNotification);
+        noFloatingActionButton= findViewById(R.id.fbnotification);
+        notsImageView = findViewById(R.id.imageNots);
+
+
+        notsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,NotificationActivity.class));
+            }
+        });
         getAccountInfo();
+        getNotifications();
 
 
          mService = Common.getAPI();
@@ -97,6 +118,33 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void getNotifications() {
+        mService.countNotifications(session.getIdNumber()).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+
+                if (response.body().getMessage().equalsIgnoreCase("0")) {
+
+                }else{
+                    String noOfNotification = response.body().getMessage();
+                    Log.e(TAG, "Nos"+noOfNotification );
+                    mCoordinatorLayout.setVisibility(View.VISIBLE);
+
+                    tvnoOfNotifications.setText(noOfNotification);
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+
+
+            }
+        });
     }
 
     private void getAccountInfo() {
@@ -147,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        //menu.findItem(R.id.action_settings).setTitle(Html.fromHtml("<font color='#ff3824'>Settings</font>"));
         return true;
     }
 
@@ -158,9 +207,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -218,10 +268,8 @@ public class MainActivity extends AppCompatActivity
         switch(adapterPosition)
         {
             case 0:
-
-
-                Intent applyLoanIntent = new Intent(this, LoanActivity.class);
-                startActivity(applyLoanIntent);
+                Intent myLoanIntent = new Intent(this, MyLoansActivity.class);
+                startActivity(myLoanIntent);
                 break;
             case 1:
                 Intent guaranteesIntent = new Intent(this, ApproveLoanActivity.class);
@@ -235,6 +283,15 @@ public class MainActivity extends AppCompatActivity
             case 3:
                 Intent savingsIntent = new Intent(this, SavingsActivity.class);
                 startActivity(savingsIntent);
+                break;
+
+            case 4:
+                Intent loanBalanceIntent = new Intent(this, LoanBalanceActivity.class);
+                startActivity(loanBalanceIntent);
+                break;
+            case 5:
+                Intent assetsIntent = new Intent(this, AssetsActivity.class);
+                startActivity(assetsIntent);
                 break;
         }
 

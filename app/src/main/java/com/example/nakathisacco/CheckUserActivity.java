@@ -1,32 +1,20 @@
 package com.example.nakathisacco;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.nakathisacco.HomePackage.SplashScreen;
 import com.example.nakathisacco.HomePackage.signup;
-import com.example.nakathisacco.Model.Loan;
-import com.example.nakathisacco.Model.LoanTypeModel;
 import com.example.nakathisacco.Model.MessageModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
-import com.example.nakathisacco.adapters.LoanTypeAdapter;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

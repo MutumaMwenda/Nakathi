@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".LoanActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".MyLoansActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".HomePackage.SplashScreen"
@@ -54,7 +54,32 @@
         <activity android:name=".GetGuarantorActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity android:name=".AddGuarantorActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".SavingsActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
+        <activity android:name=".LoanBalanceActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".AssetsActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
+        <activity android:name=".AssetRevenueActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".NotificationActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".MyLoansActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />

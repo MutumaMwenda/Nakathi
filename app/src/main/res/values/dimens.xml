@@ -61,6 +61,7 @@
     <dimen name="size_2">2dp</dimen>
     <dimen name="size_32">32dp</dimen>
     <dimen name="size_100">100dp</dimen>
+    <dimen name="size_50">50dp</dimen>
     <dimen name="size_150">200dp</dimen>
     <dimen name="size_36dp">36dp</dimen>
     <dimen name="size_0dp">0dp</dimen>

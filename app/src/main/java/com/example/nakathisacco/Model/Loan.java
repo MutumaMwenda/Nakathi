@@ -1,9 +1,26 @@
 package com.example.nakathisacco.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Loan {
     private  int member_id;
     private  int loan_type;
-    private  int amount;
+    @SerializedName("received_by")
+    @Expose
+    public String received_by;
+    @SerializedName("amount")
+    @Expose
+    public int amount;
+    @SerializedName("p_amount")
+    @Expose
+    public String p_amount;
+    @SerializedName("status")
+    @Expose
+    public String status;
+    @SerializedName("date_requested")
+    @Expose
+    public String date_requested;
 
     public Loan() {
     }

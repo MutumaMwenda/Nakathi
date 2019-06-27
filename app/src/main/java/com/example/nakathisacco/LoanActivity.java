@@ -42,7 +42,7 @@ public class LoanActivity extends AppCompatActivity {
     private Session session;
     double rate=3.50;
     private String amt;
-    private String savings;
+    private String savings="";
 
 
     INakathiAPI mService;
@@ -170,8 +170,15 @@ public class LoanActivity extends AppCompatActivity {
         mService.getMemberSavings(id_number).enqueue(new Callback<SavingsModel>() {
             @Override
             public void onResponse(Call<SavingsModel> call, Response<SavingsModel> response) {
-                 savings=response.body().amount;
-                Log.e("Sav:",savings);
+                if (response.body() != null) {
+                    savings=response.body().amount;
+                    Log.e("Sav:",savings);
+
+                }
+                else {
+                    savings="10000";
+                }
+
 
             }
 
@@ -201,7 +208,7 @@ public class LoanActivity extends AppCompatActivity {
                     Log.e(TAG, "session loan id "+session.getLoanId() );
                     Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
                     Log.e("res",""+ response);
-                    Intent intent= new Intent(LoanActivity.this,GetGuarantorActivity.class);
+                    Intent intent= new Intent(LoanActivity.this,AddGuarantorActivity.class);
                     startActivity(intent);
 
                 }

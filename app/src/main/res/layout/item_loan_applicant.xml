@@ -98,7 +98,7 @@
                         android:padding="@dimen/size_8"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:text="Proceed"
+                        android:text="View"
                         android:background="@color/colorPrimary"
                         android:textColor="@color/white"
                         />

@@ -21,6 +21,9 @@ import com.example.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +34,7 @@ public class MemberDetails extends AppCompatActivity {
     private Button btnApprove,btnReject;
     private String TAG = MemberDetails.class.getSimpleName();
     public static final String MEMBER_ITEM_KEY = "member_item_key";
-    TextView tvFullNames,tvRequestedAmount,tvBorrowedOn;
+    TextView tvFullNames,tvRequestedAmount,tvBorrowedOn,tvBorrowedAmount,tvNoOfGuarantors;
     INakathiAPI mService;
     LoanApplicantModel loanApplicantModel;
     private Session session;
@@ -69,10 +72,18 @@ public class MemberDetails extends AppCompatActivity {
         tvFullNames = findViewById(R.id.tv_fnames);
         tvRequestedAmount = findViewById(R.id.tv_requestedAmount);
         tvBorrowedOn = findViewById(R.id.tv_borrowedOn);
+        tvBorrowedAmount = findViewById(R.id.tv_borrowed_amount);
+        tvNoOfGuarantors = findViewById(R.id.tv_no_of_guarantors);
 
         tvFullNames.setText(loanApplicantModel.name);
-        tvRequestedAmount.setText(loanApplicantModel.amount);
-        tvBorrowedOn.setText(loanApplicantModel.date_requested);
+        tvRequestedAmount.setText("Kshs "+loanApplicantModel.amount_requested);
+        tvBorrowedAmount.setText("Kshs "+loanApplicantModel.amount_borrowed);
+        tvNoOfGuarantors.setText(loanApplicantModel.noOfGuarantors);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(loanApplicantModel.date_requested ) ;
+        Date date = new Date(ts.getTime());
+        String strDate = formatter.format(date);
+        tvBorrowedOn.setText(strDate);
 
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
