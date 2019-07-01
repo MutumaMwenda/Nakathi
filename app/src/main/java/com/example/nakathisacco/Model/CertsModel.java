@@ -10,9 +10,9 @@ public class CertsModel  {
     @SerializedName("name")
     @Expose
     public String name;
-    @SerializedName("expiry_date")
+    @SerializedName("expiryDate")
     @Expose
-    public String expiry_date;
+    public String expiryDate;
     @SerializedName("status")
     @Expose
     public String status;

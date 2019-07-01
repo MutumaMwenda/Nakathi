@@ -54,10 +54,10 @@ public class SavingsLogAdapter extends RecyclerView.Adapter<SavingsLogAdapter.My
         final SavingsLogModel savingsLogModel=savingsLogModels.get(position);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-        Timestamp ts = Timestamp.valueOf( savingsLogModel.deposited_date ) ;
+        Timestamp ts = Timestamp.valueOf( savingsLogModel.contribution_date ) ;
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);
-        holder.tvRegno.setText(savingsLogModel.reg_no);
+        holder.tvRegno.setText(savingsLogModel.contributor);
         holder.tvAmount.setText(savingsLogModel.amount);
         holder.tvDepositedDate.setText(strDate);
     }

@@ -48,7 +48,6 @@
                     android:textSize="@dimen/text_size_16sp"
                     android:textStyle="bold" />
 
-
             </RelativeLayout>
 
 

@@ -91,6 +91,16 @@ public interface INakathiAPI {
     Call<List<CertsModel>>getCerts(@Field("id_number")String id_number
     );
     @FormUrlEncoded
+    @POST("getVehicleContribution.php")
+    Call<AssetsRevenueModel>getVehicleContribution(@Field("id_number")String id_number,
+                                                          @Field("date")String date
+    );
+
+    @FormUrlEncoded
+    @POST("getVehicleCerts.php")
+    Call<List<CertsModel>>getVehicleCerts(@Field("reg_no")String reg_no
+    );
+    @FormUrlEncoded
     @POST("getMemberInfo.php")
     Call<MembersModel>getMemberInfo(@Field("id_number")String id_number
     );
