@@ -52,10 +52,8 @@ public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHo
 
         final CertsModel certsModel=certsModels.get(position);
 
-
-
         holder.tvLicense.setText(certsModel.name);
-        holder.tvExpiryDate.setText("Expiry Date : "+certsModel.expiry_date);
+        holder.tvExpiryDate.setText("Expiry Date : "+certsModel.expiryDate);
         int checkStatus = Integer.parseInt(certsModel.status);
         switch(checkStatus)
         {

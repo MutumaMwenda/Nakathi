@@ -1,6 +1,9 @@
 package com.example.nakathisacco;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +12,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.nakathisacco.Model.CertsModel;
-import com.example.nakathisacco.Model.LoanApplicantModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
 import com.example.nakathisacco.adapters.CertsAdapter;
-import com.example.nakathisacco.adapters.LoansApplicantsAdapter;
+import com.example.nakathisacco.adapters.TabAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,10 @@ public class CertsActivity extends AppCompatActivity {
 
     Session session;
     String id_number;
-    private RecyclerView recyclerView;
-    private List<CertsModel> certsModels = new ArrayList<>();
-    RecyclerView.Adapter adapter = null;
-
+    private TabAdapter adapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    Context context;
     private String loan_id,amount;
     INakathiAPI mService;
     @Override
@@ -46,23 +48,51 @@ public class CertsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mService = Common.getAPI();
 
+        context=this.getApplicationContext();
+        viewPager =  findViewById(R.id.viewPager);
+        tabLayout =  findViewById(R.id.tabLayout);
+        adapter = new TabAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Tab1Fragment(), "Own ");
+        adapter.addFragment(new Tab2Fragment(), "Vehicle");
+        adapter.addFragment(new Tab3Fragment(), "Staff");
 
         session = new Session(this);
         loan_id=session.getLoanId();
         id_number = session.getIdNumber();
         amount=session.getAmount();
-        getCerts(id_number);
 
-        recyclerView = findViewById(R.id.rvCerts);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-       recyclerView.setLayoutManager(linearLayoutManager);
-       recyclerView.setHasFixedSize(true);
-       adapter = new CertsAdapter(this,certsModels);
-        recyclerView.setAdapter(adapter);
+        //getCerts(id_number);
+
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+        highLightCurrentTab(0); // for initial selected tab view
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                highLightCurrentTab(position); // for tab change
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
 
 
 
     }
+    private void highLightCurrentTab(int position) {
+
+        TabLayout.Tab tab = tabLayout.getTabAt(position);
+        assert tab != null;
+        tab.setCustomView(null);
+        tab.setCustomView(adapter.getTabView(position,context));
+    }
+
+/*
     private  void getCerts(String id_number){
         mService.getCerts(id_number).enqueue(new Callback<List<CertsModel>>() {
             @Override
@@ -92,6 +122,7 @@ public class CertsActivity extends AppCompatActivity {
             }
         });
     }
+*/
 
 
 

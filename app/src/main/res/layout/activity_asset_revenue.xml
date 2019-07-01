@@ -1,113 +1,150 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <android.support.design.widget.AppBarLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/padding_50"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
             <TextView
-                android:id="@+id/myaccount0010"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Revenue"
-                android:textColor="@android:color/white"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:text="Contributions"
+                android:textColor="@android:color/white" />
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/tv_vehicle"
-                android:layout_height="wrap_content"
-                android:text="Reg No:"
-                android:textColor="@color/black"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_route_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Route:"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16sp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_vehicle"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_reg_no_Title"
-                android:layout_height="42dp"
-                android:layout_marginTop="@dimen/size_8"
-                android:layout_width="0dp"
-                android:text="Revenue Type"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_amount_Title"
-                android:layout_marginTop="@dimen/size_8"
-                android:layout_width="0dp"
-                android:text="Amount"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_deposited_date_Title"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Collected On"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_8"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAssetRevenue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/size_8"
-            android:layout_marginTop="@dimen/size_8"
-            android:layout_marginRight="@dimen/size_8"
-            android:layout_marginBottom="@dimen/size_8"
-            tools:listitem="@layout/item_asset_revenue" />
+            android:text="Reg No:"
+            android:textColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_route_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Route:"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EdxDate"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:hint="Pick a date" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+    <TextView
+        android:id="@+id/txtTitleRevenue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="REVENUES"
+        android:textColor="#86AD33"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtRevenue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtTitleLoans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="DEDUCTIONS"
+        android:textColor="#86AD33"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/txtLoans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/txtTitleSavings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="SAVINGS"
+        android:textColor="#86AD33"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtSavings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
+        <TextView
+            android:id="@+id/txtTitleTotals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="TOTAL"
+            android:textColor="#86AD33"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtTotals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"/>
+        />
+    </LinearLayout>
+</LinearLayout>

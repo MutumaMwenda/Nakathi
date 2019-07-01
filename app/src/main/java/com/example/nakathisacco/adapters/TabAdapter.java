@@ -18,30 +18,28 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public TabAdapter(FragmentManager fm) {
+   public TabAdapter(FragmentManager fm) {
+
         super(fm);
+    }
+    @Override
+    public Fragment getItem(int position) {
+        return mFragmentList.get(position);
     }
     public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
-    }
-
-    @Override
-    public Fragment getItem(int i) {
-        return mFragmentList.get(i);
     }
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return null;
     }
-
     @Override
     public int getCount() {
-        return 0;
+        return mFragmentList.size();
     }
-
-    public View getTabView(int position, Context context) {
+    public View getTabView(int position,Context context) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
         TextView tabTextView = view.findViewById(R.id.tabTextView);

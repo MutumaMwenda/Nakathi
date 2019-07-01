@@ -58,7 +58,7 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
         final CertsModel certsModel=certsModels.get(position);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(certsModel.expiry_date ) ;
+        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(certsModel.expiryDate ) ;
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);
 
