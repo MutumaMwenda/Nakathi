@@ -5,6 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class AssetsRevenueModel{
 
+    @SerializedName("Revenue")
+    @Expose
+    public String Revenue;
+
+    @SerializedName("Loan")
+    @Expose
+    public String Loan;
+
+    @SerializedName("Savings")
+    @Expose
+    public String Savings;
+
+
         @SerializedName("revenue_type")
         @Expose
         public String revenue_type;

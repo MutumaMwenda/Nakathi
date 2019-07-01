@@ -6,10 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nakathisacco.Model.CertsModel;
 import com.example.nakathisacco.Model.SavingsLogModel;
+import com.example.nakathisacco.Model.SavingsModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
@@ -34,7 +36,8 @@ public class SavingsActivity extends AppCompatActivity {
     private List<SavingsLogModel> savingsLogModels = new ArrayList<>();
     RecyclerView.Adapter adapter = null;
 
-    private String reg_no,amount,deposited_date;
+    private String total_savings,available_amount;
+    private TextView tvTotalSavings,tvAvailableBalance;
     INakathiAPI mService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class SavingsActivity extends AppCompatActivity {
         setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mService = Common.getAPI();
+        tvAvailableBalance=findViewById(R.id.tv_available_balance);
+        tvTotalSavings=findViewById(R.id.tv_total_savings);
 
 
         session = new Session(this);
@@ -59,7 +64,23 @@ public class SavingsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         mService = Common.getAPI();
         getSavingsLog(id_number);
+        getMemberSavings(id_number);
 
+    }
+
+    private void getMemberSavings(String id_number) {
+        mService.getMemberSavings(id_number).enqueue(new Callback<SavingsModel>() {
+            @Override
+            public void onResponse(Call<SavingsModel> call, Response<SavingsModel> response) {
+                tvAvailableBalance.setText("Available balance "+response.body().available_amount);
+                tvTotalSavings.setText("Total Savings "+response.body().total_saving_amount);
+            }
+
+            @Override
+            public void onFailure(Call<SavingsModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getSavingsLog(String id_number) {
@@ -70,7 +91,7 @@ public class SavingsActivity extends AppCompatActivity {
                Log.e(TAG, "onResponse: "+response.body() );
 
                if (response.body().isEmpty() || response.body().toString().equalsIgnoreCase("[]")) {
-                   Toast.makeText(SavingsActivity.this, "Members not available", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(SavingsActivity.this, "Savings Log not available", Toast.LENGTH_SHORT).show();
                } else {
 
                    savingsLogModels.clear();
