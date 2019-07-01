@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nakathisacco.HomePackage.signup;
@@ -24,6 +27,7 @@ import com.example.nakathisacco.adapters.LoanTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +37,8 @@ import retrofit2.Response;
 
 public class LoanActivity extends AppCompatActivity {
 
-    private EditText loantypeid,memberid,amount;
-    private Button mCreate;
+    private EditText loantypeid,memberid,amount,selfguarantAmount;
+    private Button mCreate,submit;
     private Spinner loanTypeSpinner;
     LoanTypeAdapter loanTypeAdapter;
     private static final String TAG = LoanActivity.class.getSimpleName();
@@ -43,6 +47,8 @@ public class LoanActivity extends AppCompatActivity {
     double rate=3.50;
     private String amt;
     private String savings="";
+    private TextView tvLoanLimit;
+    private CheckBox tvcCheckBox;
 
 
     INakathiAPI mService;
@@ -59,7 +65,30 @@ public class LoanActivity extends AppCompatActivity {
         loantypeid= findViewById(R.id.loantypeidEDX);
         memberid = findViewById(R.id.memberidEDX);
         amount= findViewById(R.id.amountEDX);
+        selfguarantAmount= findViewById(R.id.selfGuarantEd);
         mCreate= findViewById(R.id.btnLoan);
+        tvLoanLimit = findViewById(R.id.tv_loanlimit);
+        submit = findViewById(R.id.btnSubmit);
+
+        tvcCheckBox=findViewById(R.id.chk_for_guarantor);
+        tvcCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if(isChecked)
+                {
+                    mCreate.setVisibility(View.VISIBLE);
+                    submit.setVisibility(View.GONE);
+
+
+                }
+                else
+                {
+                    mCreate.setVisibility(View.GONE);
+                    submit.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
 
         session = new Session(this);
       //  AppUtilits.showDialog(this);
@@ -100,6 +129,43 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (amount.getText().toString().isEmpty()) {
+                    amount.setError("Enter amount");
+                    amount.requestFocus();
+                    return;
+                }
+
+                if (selfguarantAmount.getText().toString().isEmpty()) {
+                    selfguarantAmount.setError("Enter Amount for Self Guarantee");
+                    selfguarantAmount.requestFocus();
+                    return;
+                }
+
+                Log.e(TAG, "onClick: "+savings );
+                amt=amount.getText().toString();
+                double doubleAmt = Double.parseDouble(amt);
+                double doubleSavings = Double.parseDouble(savings);
+                if(doubleAmt>(doubleSavings*rate)){
+                    Toast.makeText(LoanActivity.this, "Add amount equal or lower than your limit", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+
+                String sAmount= String.valueOf(doubleAmt);
+                String member_id = session.getIdNumber();
+                String loantypeId = loanTypeModel.id;
+                session.setAmount(sAmount);
+                applyLoanSelf(member_id,loantypeId,sAmount);
+
+            }
+        });
+
 
 
 
@@ -119,7 +185,7 @@ public class LoanActivity extends AppCompatActivity {
                double doubleAmt = Double.parseDouble(amt);
                double doubleSavings = Double.parseDouble(savings);
                if(doubleAmt>(doubleSavings*rate)){
-                   Toast.makeText(LoanActivity.this, "You dont qualify for this loan", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(LoanActivity.this, "Add amount equal or lower than your limit", Toast.LENGTH_SHORT).show();
                    return;
 
                }
@@ -172,6 +238,16 @@ public class LoanActivity extends AppCompatActivity {
             public void onResponse(Call<SavingsModel> call, Response<SavingsModel> response) {
                 if (response.body() != null) {
                     savings=response.body().amount;
+                    double doubleSavings = Double.parseDouble(savings);
+                    double loanlimit  = doubleSavings*rate;
+                    Integer limit =(int) loanlimit;
+                    String displayLoanLimit = limit.toString();
+                    String number = displayLoanLimit;
+                    double amount = Double.parseDouble(number);
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    tvLoanLimit.setText("Kshs " + formatter.format(amount));
+
+
                     Log.e("Sav:",savings);
 
                 }
@@ -190,7 +266,7 @@ public class LoanActivity extends AppCompatActivity {
 
     }
 
-    private void applyLoan(String member_id, final String loan_type_id, final String amount) {
+    private void applyLoanSelf(String member_id, final String loan_type_id, final String amount) {
         AppUtilits.showDialog(this);
 
         mService.insertLoan(member_id,loan_type_id,amount).enqueue(new Callback<MessageModel>() {
@@ -208,6 +284,38 @@ public class LoanActivity extends AppCompatActivity {
                     Log.e(TAG, "session loan id "+session.getLoanId() );
                     Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
                     Log.e("res",""+ response);
+                    Intent intent= new Intent(LoanActivity.this,MyLoansActivity.class);
+                    startActivity(intent);
+
+                }
+            }
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+                AppUtilits.dismissDialog();
+                Toast.makeText(LoanActivity.this," " + t.getMessage(),Toast.LENGTH_SHORT).show();
+                Log.e("ln",""+ t.getMessage());
+
+            }
+        });
+    }
+    private void applyLoan(String member_id, final String loan_type_id, final String amount) {
+        AppUtilits.showDialog(this);
+
+        mService.insertLoan(member_id,loan_type_id,amount).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                AppUtilits.dismissDialog();
+
+
+                if (response.isSuccessful())
+                {
+                    String lastInsertedId = response.body().getMessage();
+                    Log.e(TAG, "onResponse: "+lastInsertedId );
+                    if (!lastInsertedId.equals("-1"))
+                        session.setLoanId(lastInsertedId);
+                    Log.e(TAG, "session loan id "+session.getLoanId() );
+                    //Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
+                    Log.e("res",""+ response);
                     Intent intent= new Intent(LoanActivity.this,AddGuarantorActivity.class);
                     startActivity(intent);
 
@@ -222,6 +330,5 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

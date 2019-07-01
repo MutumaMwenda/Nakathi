@@ -91,17 +91,19 @@
 
 
 
+
                 <Button
-                        android:id="@+id/btn_approve"
-                        android:layout_width="wrap_content"
-                        android:layout_height="42dp"
-                        android:padding="@dimen/size_8"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:text="View"
-                        android:background="@color/colorPrimary"
-                        android:textColor="@color/white"
-                        />
+                    android:id="@+id/btn_approve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:padding="@dimen/padding_normal_8dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="view"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

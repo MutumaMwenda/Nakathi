@@ -16,6 +16,7 @@ import com.example.nakathisacco.Model.LoanApplicantModel;
 import com.example.nakathisacco.R;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +66,9 @@ public class LoansApplicantsAdapter extends RecyclerView.Adapter<LoansApplicants
 
         holder.tvName.setText("Name: "+loanApplicantModel.name);
         holder.tvBorrowedOn.setText("Borrowed On: "+strDate);
-        holder.tvLoan.setText("Amount: "+loanApplicantModel.amount_requested);
+        double amount = Double.parseDouble(loanApplicantModel.amount_requested);
+        DecimalFormat formatter2 = new DecimalFormat("#,###");
+        holder.tvLoan.setText("Amount in Kshs: "+formatter2.format(amount));
          loan_id = loanApplicantModel.loan_id;
 
         holder.btnApprove.setOnClickListener(new View.OnClickListener() {

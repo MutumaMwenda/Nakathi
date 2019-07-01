@@ -44,13 +44,24 @@ public interface INakathiAPI {
     );
     @FormUrlEncoded
     @POST("approveLoan.php")
-    Call<MessageModel>approveLoan(@Field("loan_id")String loan_id,
-                                  @Field("status")String status,
+    Call<MessageModel>approveLoan(@Field("status")String loan_id,
+                                  @Field("loan_id")String status,
                                   @Field("member_id")String member_id);
     @FormUrlEncoded
     @POST("getGuarantorLoans.php")
     Call<List<LoanApplicantModel>>getGuarantorLoans(@Field("id_number")String id_number
     );
+    @FormUrlEncoded
+    @POST("getApproved.php")
+    Call<List<LoanApplicantModel>>getGuarantorLoansA(@Field("id_number")String id_number
+    );
+
+    @FormUrlEncoded
+    @POST("getRejected.php")
+    Call<List<LoanApplicantModel>>getGuarantorLoansR(@Field("id_number")String id_number
+    );
+
+
     @FormUrlEncoded
     @POST("createPassword.php")
     Call<MessageModel>createPassword(@Field("password")String password,
@@ -103,7 +114,7 @@ public interface INakathiAPI {
     );
     @FormUrlEncoded
     @POST("insertGuarantors.php")
-    Call<GuarantorModel>insertGuarantors(@Field("loan_id")String loan_id,
+    Call<MessageModel>insertGuarantors(@Field("loan_id")String loan_id,
                                         @Field("member_id")String member_id,
                                         @Field("amount")String amount,
                                         @Field("applicant_id")String applicant_id

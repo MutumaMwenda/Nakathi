@@ -21,8 +21,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nakathisacco.HomePackage.signup;
 import com.example.nakathisacco.Model.GuarantorModel;
 import com.example.nakathisacco.Model.MembersModel;
+import com.example.nakathisacco.Model.MessageModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.example.nakathisacco.UtilitiesPackage.Common;
@@ -298,16 +300,24 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     private void insertGuarantors(String loan_id, String member_id, String amount, String applicant_id) {
         Log.e(TAG, "insertGuarantors: ");
 
-        mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<GuarantorModel>() {
+        mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(Call<GuarantorModel> call, Response<GuarantorModel> response) {
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onResponse: " + response.body());
-                    Log.e("Values", "" + response.body().toString());
 
-                    Intent mainIntent = new Intent(AddGuarantorActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
+                    String msg = response.body().getMessage();
+                    if(msg.equalsIgnoreCase("true")){
+                        Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onResponse: " + response.body());
+                        Log.e("Values", "" + response.body().toString());
+                        Intent mainIntent = new Intent(AddGuarantorActivity.this,MyLoansActivity.class);
+                        startActivity(mainIntent);
+                    }else{
+                        Toast.makeText(AddGuarantorActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                    }
+
+
+
 
                 } else {
                     Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -316,7 +326,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
             }
 
             @Override
-            public void onFailure(Call<GuarantorModel> call, Throwable t) {
+            public void onFailure(Call<MessageModel> call, Throwable t) {
 
             }
         });

@@ -21,6 +21,7 @@ import com.example.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -76,8 +77,13 @@ public class MemberDetails extends AppCompatActivity {
         tvNoOfGuarantors = findViewById(R.id.tv_no_of_guarantors);
 
         tvFullNames.setText(loanApplicantModel.name);
-        tvRequestedAmount.setText("Kshs "+loanApplicantModel.amount_requested);
-        tvBorrowedAmount.setText("Kshs "+loanApplicantModel.amount_borrowed);
+        double amount = Double.parseDouble(loanApplicantModel.amount_requested);
+        DecimalFormat formatter2 = new DecimalFormat("#,###");
+        tvRequestedAmount.setText("Kshs : "+formatter2.format(amount));
+        double amount2 = Double.parseDouble(loanApplicantModel.amount_borrowed);
+        DecimalFormat formatter3 = new DecimalFormat("#,###");
+        tvBorrowedAmount.setText("Kshs : "+formatter3.format(amount2));
+
         tvNoOfGuarantors.setText(loanApplicantModel.noOfGuarantors);
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
         java.sql.Timestamp ts = java.sql.Timestamp.valueOf(loanApplicantModel.date_requested ) ;
@@ -102,8 +108,8 @@ public class MemberDetails extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Toast.makeText(MemberDetails.this, "success", Toast.LENGTH_SHORT).show();
-                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
-                                startActivity(guaranteesIntent);
+//                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
+//                                startActivity(guaranteesIntent);
                                 status = "1";
                                 submit();
 
@@ -145,8 +151,8 @@ public class MemberDetails extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Toast.makeText(MemberDetails.this, "success", Toast.LENGTH_SHORT).show();
-                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
-                                startActivity(guaranteesIntent);
+//                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
+//                                startActivity(guaranteesIntent);
                                 status = "2";
                                  submit();
 
@@ -177,7 +183,7 @@ public class MemberDetails extends AppCompatActivity {
     private void submit(){
         AppUtilits.showDialog(this);
         Log.e(TAG, "submit: "+loanApplicantModel.loan_id+" "+status+"  "+member_id );
-        mService.approveLoan(loanApplicantModel.loan_id,status,member_id).enqueue(new Callback<MessageModel>() {
+        mService.approveLoan("1",loanApplicantModel.loan_id,member_id).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 Log.e(TAG, "onResponse: "+response.body().toString() );
@@ -187,6 +193,8 @@ public class MemberDetails extends AppCompatActivity {
                     String msg= response.body().getMessage();
                     if (msg.equalsIgnoreCase("true")) {
                         AppUtilits.successDialog(MemberDetails.this);
+                        Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
+                        startActivity(guaranteesIntent);
 
                     }else {
                         Toast.makeText(MemberDetails.this, "You are not able to approve the Member", Toast.LENGTH_SHORT).show();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.example.nakathisacco.adapters.RecentLoansAdapter;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +46,9 @@ public class MyLoansActivity extends AppCompatActivity {
     double rate=3.50,doubleSavings,maximumCanBorrow;
     private String amt;
     private String savings;
-    private TextView tvDisplayMaximumLoan;
+    private TextView tvDisplayMaximumLoan,tv_display_no_loans;
     private Button btnLoanRequest;
+    private LinearLayout linearLayout;
 
     private RecyclerView recyclerView;
     private List<Loan> loanModels = new ArrayList<>();
@@ -63,6 +66,8 @@ public class MyLoansActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mService = Common.getAPI();
         tvDisplayMaximumLoan = findViewById(R.id.tv_maximumLoan);
+        tv_display_no_loans= findViewById(R.id.tv_display_no_loans);
+        linearLayout = findViewById(R.id.ly_header);
         btnLoanRequest = findViewById(R.id.btnRequestLoan);
 
         session = new Session(this);
@@ -107,7 +112,10 @@ public class MyLoansActivity extends AppCompatActivity {
                     Log.e("Sav:", savings + maximumCanBorrow);
                     Integer maximumLoan = (int) maximumCanBorrow;
                     String displayMaximumLoan = maximumLoan.toString();
-                    tvDisplayMaximumLoan.setText("Kshs " + maximumLoan);
+                    String number = displayMaximumLoan;
+                    double amount = Double.parseDouble(number);
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    tvDisplayMaximumLoan.setText("Kshs " + formatter.format(amount));
                 }
 
             }
@@ -156,6 +164,11 @@ public class MyLoansActivity extends AppCompatActivity {
 
                 if (response.body().isEmpty() || response.body().toString().equalsIgnoreCase("[]")) {
                    // Toast.makeText(MyLoansActivity.this, "No loans", Toast.LENGTH_SHORT).show();
+
+                        tv_display_no_loans.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.GONE);
+
+
                 } else {
 
                     loanModels.clear();

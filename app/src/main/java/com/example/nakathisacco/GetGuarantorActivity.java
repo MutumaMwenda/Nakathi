@@ -301,28 +301,28 @@ public class GetGuarantorActivity extends AppCompatActivity implements View.OnCl
     private void insertGuarantors(String loan_id, String member_id, String amount, String applicant_id) {
         Log.e(TAG, "insertGuarantors: ");
 
-        mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<GuarantorModel>() {
-            @Override
-            public void onResponse(Call<GuarantorModel> call, Response<GuarantorModel> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(GetGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onResponse: " + response.body());
-                    Log.e("Values", "" + response.body().toString());
-
-                    Intent mainIntent = new Intent(GetGuarantorActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-
-                } else {
-                    Toast.makeText(GetGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<GuarantorModel> call, Throwable t) {
-
-            }
-        });
+//        mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<GuarantorModel>() {
+//            @Override
+//            public void onResponse(Call<GuarantorModel> call, Response<GuarantorModel> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(GetGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
+//                    Log.e(TAG, "onResponse: " + response.body());
+//                    Log.e("Values", "" + response.body().toString());
+//
+//                    Intent mainIntent = new Intent(GetGuarantorActivity.this, MainActivity.class);
+//                    startActivity(mainIntent);
+//
+//                } else {
+//                    Toast.makeText(GetGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GuarantorModel> call, Throwable t) {
+//
+//            }
+//        });
     }
 
 

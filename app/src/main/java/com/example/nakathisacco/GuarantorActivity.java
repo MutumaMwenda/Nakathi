@@ -113,30 +113,6 @@ public class GuarantorActivity extends AppCompatActivity {
     }
 
     private void insertGuarantors(final String loan_id,final String member_id,  final String amount,String applicant_id) {
-        mService.insertGuarantors(loan_id,member_id,amount,applicant_id).enqueue(new Callback<GuarantorModel>() {
-            @Override
-            public void onResponse(Call<GuarantorModel> call, Response<GuarantorModel> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(GuarantorActivity.this,"Success",Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onResponse: "+response.body() );
-                    Log.e("member_id",""+member_id);
-                    Log.e("loan id",""+loan_id);
-                    Log.e("Values",""+response.body().toString());
-
-                    Intent mainIntent = new Intent(GuarantorActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-
-                }else{
-                    Toast.makeText(GuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<GuarantorModel> call, Throwable t) {
-
-            }
-        });
 
     }
 
