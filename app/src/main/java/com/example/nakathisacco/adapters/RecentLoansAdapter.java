@@ -65,7 +65,7 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
         switch("0")
         {
             case "0":
-                loan_status = "Pending";
+                loan_status = "Draft";
                 break;
             case "1":
                 loan_status = "Approved";

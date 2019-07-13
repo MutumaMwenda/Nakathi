@@ -237,7 +237,7 @@ public class LoanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SavingsModel> call, Response<SavingsModel> response) {
                 if (response.body() != null) {
-                    savings=response.body().amount;
+                    savings=response.body().available_amount;
                     double doubleSavings = Double.parseDouble(savings);
                     double loanlimit  = doubleSavings*rate;
                     Integer limit =(int) loanlimit;

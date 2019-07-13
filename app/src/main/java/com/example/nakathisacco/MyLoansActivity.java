@@ -105,7 +105,7 @@ public class MyLoansActivity extends AppCompatActivity {
                 if (response.body() != null) {
 
 
-                    savings = response.body().amount;
+                    savings = response.body().available_amount;
 
                     doubleSavings = Double.parseDouble(savings);
                     maximumCanBorrow = doubleSavings * rate;
