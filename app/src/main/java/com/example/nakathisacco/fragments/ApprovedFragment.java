@@ -27,7 +27,7 @@ import retrofit2.Response;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class OldOnesFragment extends Fragment {
+public class ApprovedFragment extends Fragment {
 
     Session session;
     String id_number;
@@ -38,8 +38,8 @@ public class OldOnesFragment extends Fragment {
     private String loan_id,amount;
     INakathiAPI mService;
 
-    public static OldOnesFragment newInstance() {
-        OldOnesFragment fragment = new OldOnesFragment();
+    public static ApprovedFragment newInstance() {
+        ApprovedFragment fragment = new ApprovedFragment();
 
 
 

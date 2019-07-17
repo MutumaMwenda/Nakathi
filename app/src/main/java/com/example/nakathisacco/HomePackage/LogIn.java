@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -64,7 +66,7 @@ public class LogIn extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSignUp = new Intent(LogIn.this, CheckUserActivity.class);
+                Intent intentSignUp = new Intent(LogIn.this, signup.class);
                 startActivity(intentSignUp);
             }
         });
@@ -89,21 +91,21 @@ public class LogIn extends AppCompatActivity {
 
                 }
                 AppUtilits.showDialog(LogIn.this);
-                mService.checkPassword(id_number,password).enqueue(new Callback<MessageModel>() {
+                mService.checkuser(id_number,password).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                         AppUtilits.dismissDialog();
-                        Log.e(TAG, "onResponse: "+response );
+                        Log.e(TAG, "onResponse: "+response.body().getMessage() );
 
                         if(response.isSuccessful()){
                             String msg= response.body().getMessage();
-                            if(msg.equalsIgnoreCase("true")){
+                            if(msg.equalsIgnoreCase("success")){
 //
                                 getAccountInfo();
 
 
                             } else{
-                                Toast.makeText(LogIn.this, "Invalid  Password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogIn.this, msg, Toast.LENGTH_SHORT).show();
                             }
 
 

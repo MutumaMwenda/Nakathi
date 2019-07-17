@@ -68,9 +68,19 @@ public interface INakathiAPI {
                                      @Field("id_number")String id_number
     );
     @FormUrlEncoded
+    @POST("createUser.php")
+    Call<MessageModel>createUser(@Field("password")String password,
+                                     @Field("id_number")String id_number
+    );
+    @FormUrlEncoded
     @POST("checkPassword.php")
     Call<MessageModel>checkPassword(@Field("id_number")String id_number,
                                      @Field("password")String password
+    );
+    @FormUrlEncoded
+    @POST("checkuser.php")
+    Call<MessageModel>checkuser(@Field("id_number")String id_number,
+                                    @Field("password")String password
     );
     @FormUrlEncoded
     @POST("getAssetRevenue.php")

@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nakathisacco.HomePackage.signup;
@@ -51,8 +53,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     private List<MembersModel> membersModels = new ArrayList<>();
     private List<MembersModel> guarantorModels = new ArrayList<>();
     private Button btnAddMore,btnValidate,btnSubmit;
-    TextInputLayout tIidNo,tIfnames,tIamount;
-    private EditText editTextId,editAmount,editfnames;
+    TextInputLayout tIidNo,tIfnames,tIamount,selfAmount;
+    private EditText editTextId,editAmount,editfnames,editLoanAmount,editSelfAmount;
     private SearchView searchView;
     private SimpleCursorAdapter myAdapter;
     private GuarantorCursorAdapter guarantorCursorAdapter;
@@ -62,6 +64,9 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     String idnumberOfGuarantor;
     boolean flag=true;
     private String fnames,guarantorIdNo,amount;
+    TextView selftv;
+    SelectGuarantorAdapter selectGuarantorAdapter;
+    private String lastInsertedId,amountBorrowed,member,loantype;
 
 
     @Override
@@ -85,6 +90,31 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
         tIfnames.setEnabled(false);
         tIamount = findViewById(R.id.tIamount);
         chkTerms = findViewById(R.id.chk_terms);
+        editLoanAmount = findViewById(R.id.loan_amount);
+        selfAmount = findViewById(R.id.s_amount);
+        selftv = findViewById(R.id.tvSelf);
+        editSelfAmount = findViewById(R.id.self_amount);
+
+
+
+
+        amountBorrowed = getIntent().getExtras().getString("amount");
+         member = getIntent().getExtras().getString("member_id");
+        loantype = getIntent().getExtras().getString("loantype");
+        String gtype = getIntent().getExtras().getString("gtype");
+        String savings = getIntent().getExtras().getString("savings");
+
+        Toast.makeText(this, amount+member+loantype+gtype+savings, Toast.LENGTH_SHORT).show();
+        if (amountBorrowed!=null){
+            editLoanAmount.setText(amountBorrowed);
+        }
+        if(gtype.equalsIgnoreCase("others")){
+            selfAmount.setVisibility(View.GONE);
+            selftv.setVisibility(View.GONE);
+
+        }
+
+
 
 
         String checkTermsConditionText = "I agree to all the <a href='https://www.impaxafrica.com/' > Terms and Conditions</a>";
@@ -141,7 +171,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.btnsend:
                 Log.e(TAG, "button send");
-                submit();
+                //submit();
+                send();
                 break;
 
             case R.id.btnValidate:
@@ -152,6 +183,76 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
 
+
+    }
+    public void send(){
+        if (editSelfAmount.getText().toString().isEmpty()) {
+            editSelfAmount.setError("Please enter amont ");
+            editSelfAmount.requestFocus();
+            return;
+        }
+       double totals =  total()+Double.parseDouble(editSelfAmount.getText().toString());
+
+        if(chkTerms.isChecked()){
+
+            if(totals== (int)(Double.parseDouble(editLoanAmount.getText().toString()))) {
+
+                String loanid = getloanId();
+                submit(loanid);
+
+
+
+            }else {
+                Toast.makeText(this, "Your Guarantors amount and Loan applied shoud match", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }else{
+            Toast.makeText(this, "Check your Terms and conditions", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+    private String getloanId(){
+
+        mService.insertLoan(member,loantype,amountBorrowed).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                AppUtilits.dismissDialog();
+
+
+                if (response.isSuccessful())
+                {
+                    Log.e(TAG, "onResponse: "+response.body().getMessage() );
+                     lastInsertedId = response.body().getMessage();
+
+
+
+                }
+            }
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+                AppUtilits.dismissDialog();
+                Log.e("ln",""+ t.getMessage());
+
+            }
+        });
+
+        return lastInsertedId;
+
+    }
+    public  double total(){
+        double total =0;
+        for (int i = 0; i < SelectGuarantorAdapter.membersModels.size(); i++) {
+            Log.e(TAG, "submit: " + SelectGuarantorAdapter.membersModels.size());
+            total+=Double.parseDouble( SelectGuarantorAdapter.membersModels.get(i).amount);
+
+        }
+        return total;
 
     }
 
@@ -248,9 +349,9 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void submit() {
-        String loan_id = session.getLoanId();
-        String applicant_id = session.getIdNumber();
+    private void submit(String loan_id) {
+
+        String applicant_id = member;
         String name=null;
         String id_number=null;
         String amount=null;
@@ -306,21 +407,21 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                 if (response.isSuccessful()) {
 
                     String msg = response.body().getMessage();
-                    if(msg.equalsIgnoreCase("true")){
-                        Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onResponse: " + response.body());
-                        Log.e("Values", "" + response.body().toString());
-                        Intent mainIntent = new Intent(AddGuarantorActivity.this,MyLoansActivity.class);
-                        startActivity(mainIntent);
-                    }else{
-                        Toast.makeText(AddGuarantorActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                    if (msg != null) {
+
+
+                        if (msg.equalsIgnoreCase("true")) {
+                            Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "onResponse: " + response.body());
+                            Log.e("Values", "" + response.body().toString());
+                            Intent mainIntent = new Intent(AddGuarantorActivity.this, MyLoansActivity.class);
+                            startActivity(mainIntent);
+                        } else {
+                            Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
-
-
-
-
-                } else {
-                    Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
 
             }

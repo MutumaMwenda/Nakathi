@@ -153,60 +153,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_16"
-            android:orientation="horizontal">
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:padding="@dimen/size_8">
 
             <TextView
                 android:id="@+id/tv_reg_no_Title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_8"
-                android:layout_width="0dp"
-                android:text="Date"
                 android:layout_weight="1"
-                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:text="Date"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_amount_Title"
-                android:layout_marginTop="@dimen/size_8"
                 android:layout_width="0dp"
-                android:text="Amount"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_8"
                 android:layout_weight="1"
-                android:textColor="@color/black"
+                android:text="Amount"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_loan_status"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="status"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_8"
-                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:text="status"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_view_info"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:text="View Info"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_8"
+                android:layout_weight="1"
+                android:text="View Info"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_loan_action"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Action"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_8"
+                android:layout_weight="1"
+                android:text="Action"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout

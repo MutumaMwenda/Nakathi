@@ -53,7 +53,7 @@ public class AppUtilits {
                 public void run() {
                     pDialog.dismiss();
                 }
-            }, 4000); // 3000 milliseconds delay
+            }, 3000); // 3000 milliseconds delay
         }
 
     }

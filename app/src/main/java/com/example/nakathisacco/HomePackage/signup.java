@@ -54,8 +54,8 @@ public class signup  extends AppCompatActivity {
         btnSignup = findViewById(R.id.button3);
 
 
-        id_numberText.setText(session.getIdNumber());
-        id_numberText.setEnabled(false);
+//        id_numberText.setText(session.getIdNumber());
+//        id_numberText.setEnabled(false);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +73,13 @@ public class signup  extends AppCompatActivity {
                 confirmpass=retype_passwordText.getText().toString().trim();
                 if(password.equals(confirmpass)){
                     AppUtilits.showDialog(signup.this);
-                    mService.createPassword(password,id_number).enqueue(new Callback<MessageModel>() {
+                    mService.createUser(password,id_number).enqueue(new Callback<MessageModel>() {
                         @Override
                         public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                             String msg= response.body().getMessage();
                             AppUtilits.dismissDialog();
-                            if(msg.equalsIgnoreCase("true")){
+                            if(msg.equalsIgnoreCase("success")){
+                                Toast.makeText(signup.this, "You have successfully created your PIN. Proceed to Log In", Toast.LENGTH_LONG).show();
                                 Intent intent= new Intent(signup.this, LogIn.class);
                                 startActivity(intent);
                             }

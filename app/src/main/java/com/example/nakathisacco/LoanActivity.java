@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,10 +49,12 @@ public class LoanActivity extends AppCompatActivity {
     LoanTypeModel loanTypeModel;
     private Session session;
     double rate=3.50;
+    double loanlimit;
     private String amt;
     private String savings="";
     private TextView tvLoanLimit;
     private CheckBox tvcCheckBox;
+    private String guarantorType;
 
 
     INakathiAPI mService;
@@ -62,13 +68,48 @@ public class LoanActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mService = Common.getAPI();
         loanTypeSpinner = findViewById(R.id.spLoanType);
-        loantypeid= findViewById(R.id.loantypeidEDX);
+        //loantypeid= findViewById(R.id.loantypeidEDX);
         memberid = findViewById(R.id.memberidEDX);
         amount= findViewById(R.id.amountEDX);
         selfguarantAmount= findViewById(R.id.selfGuarantEd);
         mCreate= findViewById(R.id.btnLoan);
         tvLoanLimit = findViewById(R.id.tv_loanlimit);
         submit = findViewById(R.id.btnSubmit);
+        RadioGroup radioGroup = findViewById(R.id.radio_group);
+        final int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                // This will get the radiobutton that has changed in its check state
+                RadioButton checkedRadioButton = group.findViewById(checkedId);
+                // This puts the value (true/false) into the variable
+                boolean isChecked = checkedRadioButton.isChecked();
+                // If the radiobutton that has changed in check state is now checked...
+                if (isChecked)
+                {
+                   if(checkedRadioButton.getId()== R.id.radio2){
+                       submit.setVisibility(View.GONE);
+                       mCreate.setVisibility(View.VISIBLE);
+                      // Toast.makeText(LoanActivity.this, "2", Toast.LENGTH_SHORT).show();
+                       guarantorType ="selfwithothers";
+
+                   } else if(checkedRadioButton.getId()== R.id.radio3){
+                       //Toast.makeText(LoanActivity.this, "3", Toast.LENGTH_SHORT).show();
+                       submit.setVisibility(View.GONE);
+                       mCreate.setVisibility(View.VISIBLE);
+                       guarantorType ="others";
+
+                   }else {
+                       submit.setVisibility(View.VISIBLE);
+                       mCreate.setVisibility(View.GONE);
+                   }
+
+                }
+            }
+        });
+
+
 
         tvcCheckBox=findViewById(R.id.chk_for_guarantor);
         tvcCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -128,6 +169,50 @@ public class LoanActivity extends AppCompatActivity {
 
             }
         });
+        amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (!s.toString().isEmpty()) {
+                    String newValue = s.toString();
+                    if (newValue.length() > 1 && newValue.startsWith("0")) {
+                        newValue = newValue.substring(1);
+                        amount.setText(newValue);
+                        amount.setSelection(newValue.length());
+                    }
+                    Double requested = Double.valueOf(newValue);
+                    if (requested > loanlimit) {
+                        amount.removeTextChangedListener(this);
+                        amount.setText(Double.toString(loanlimit));
+                        amount.setSelection(amount.getText().length());
+                        Toast.makeText(LoanActivity.this, "Requested amount cannot exceed  loan limit amount,Request a lower amount or proceed to add guarantor", Toast.LENGTH_LONG).show();
+                        amount.addTextChangedListener(this);
+                        submit.setEnabled(false);
+                    } else if
+                         (checkedRadioButtonId == R.id.selfradio1) {
+                            submit.setEnabled(true);
+
+
+
+
+                    }
+                } else {
+                    amount.setText("0");
+                    amount.setSelection(amount.getText().length());
+                }
+
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,11 +225,11 @@ public class LoanActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (selfguarantAmount.getText().toString().isEmpty()) {
-                    selfguarantAmount.setError("Enter Amount for Self Guarantee");
-                    selfguarantAmount.requestFocus();
-                    return;
-                }
+//                if (selfguarantAmount.getText().toString().isEmpty()) {
+//                    selfguarantAmount.setError("Enter Amount for Self Guarantee");
+//                    selfguarantAmount.requestFocus();
+//                    return;
+//                }
 
                 Log.e(TAG, "onClick: "+savings );
                 amt=amount.getText().toString();
@@ -195,7 +280,15 @@ public class LoanActivity extends AppCompatActivity {
                String member_id = session.getIdNumber();
                String loantypeId = loanTypeModel.id;
                session.setAmount(sAmount);
-               applyLoan(member_id,loantypeId,sAmount);
+              // applyLoan(member_id,loantypeId,sAmount);
+               Intent intent= new Intent(LoanActivity.this,AddGuarantorActivity.class);
+               intent.putExtra("amount",sAmount);
+               intent.putExtra("member_id",member_id);
+               intent.putExtra("loantype",loantypeId);
+               intent.putExtra("gtype",guarantorType);
+               intent.putExtra("savings",tvLoanLimit.getText());
+               startActivity(intent);
+
 
            }
        });
@@ -239,7 +332,7 @@ public class LoanActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     savings=response.body().available_amount;
                     double doubleSavings = Double.parseDouble(savings);
-                    double loanlimit  = doubleSavings*rate;
+                    loanlimit  = doubleSavings*rate;
                     Integer limit =(int) loanlimit;
                     String displayLoanLimit = limit.toString();
                     String number = displayLoanLimit;
@@ -284,7 +377,7 @@ public class LoanActivity extends AppCompatActivity {
                     Log.e(TAG, "session loan id "+session.getLoanId() );
                     Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
                     Log.e("res",""+ response);
-                    Intent intent= new Intent(LoanActivity.this,MyLoansActivity.class);
+                    Intent intent= new Intent(LoanActivity.this,SuccessActivity.class);
                     startActivity(intent);
 
                 }
@@ -329,6 +422,10 @@ public class LoanActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }

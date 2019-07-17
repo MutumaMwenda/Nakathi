@@ -15,7 +15,7 @@
 
     /**Login **/
 
-    <string name="id">Id Number</string>
+    <string name="id">Member No</string>
     <string name="password">Password</string>
     <string name="login">LOGIN</string>
     <string name="signup">SIGNUP</string>

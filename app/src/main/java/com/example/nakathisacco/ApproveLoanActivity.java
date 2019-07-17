@@ -1,7 +1,6 @@
 package com.example.nakathisacco;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,39 +8,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.nakathisacco.Model.GuarantorModel;
 import com.example.nakathisacco.Model.LoanApplicantModel;
-import com.example.nakathisacco.Model.MembersModel;
-import com.example.nakathisacco.Model.MessageModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.Session;
-import com.example.nakathisacco.adapters.GuarantorAdapter;
-import com.example.nakathisacco.adapters.LoansApplicantsAdapter;
-import com.example.nakathisacco.adapters.TabAdapter;
 import com.example.nakathisacco.fragments.NewOnesFragment;
-import com.example.nakathisacco.fragments.OldOnesFragment;
+import com.example.nakathisacco.fragments.ApprovedFragment;
 import com.example.nakathisacco.fragments.RejectedOnesFragment;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -161,7 +142,7 @@ public class ApproveLoanActivity extends AppCompatActivity {
                 case 0:
                     return NewOnesFragment.newInstance();
                 case 1:
-                    return OldOnesFragment.newInstance();
+                    return ApprovedFragment.newInstance();
 
                 case 2:
                     return RejectedOnesFragment.newInstance();

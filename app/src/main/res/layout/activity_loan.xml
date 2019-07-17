@@ -26,36 +26,37 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:paddingRight="16dp">
 
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/loantype"
-            android:visibility="gone"
+        <TextView
+            android:id="@+id/tv_select_loan_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_qualify"
+            android:layout_marginEnd="@dimen/size_4"
+            android:layout_marginRight="@dimen/size_4"
+            android:gravity="start"
+            android:text="Select Type of Loan"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="normal"
+            android:visibility="visible" />
 
-            <EditText
-                android:id="@+id/loantypeidEDX"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="Loan Type Id" />
-        </android.support.design.widget.TextInputLayout>
+
         <Spinner
             android:id="@+id/spLoanType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_16"
-            android:background="@android:color/transparent"
-           />
+            android:background="@android:color/transparent" />
 
 
         <android.support.design.widget.TextInputLayout
@@ -67,20 +68,21 @@
                 android:id="@+id/memberidEDX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Member id"
                 android:inputType="number"
-                android:visibility="gone"
-                android:hint="Member id" />
+                android:visibility="gone" />
         </android.support.design.widget.TextInputLayout>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Available amount for SelfGuarantee"
-            android:textSize="@dimen/text_size_20sp"
+            android:text="Maximum loan Amount"
             android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
 
             />
+
         <TextView
             android:id="@+id/tv_loanlimit"
             android:layout_width="match_parent"
@@ -91,7 +93,7 @@
             android:gravity="start"
             android:text="Kshs 0"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_24sp"
+            android:textSize="@dimen/text_size_18sp"
             android:textStyle="normal"
             android:visibility="visible" />
 
@@ -99,26 +101,29 @@
             android:id="@+id/selfGuarantee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_16">
+            android:layout_marginTop="@dimen/size_16"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/selfGuarantEd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Amount for Self-Guarantee" />
+                android:hint="Amount for Self-Guarantee"
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_16"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <CheckBox
                 android:id="@+id/chk_for_guarantor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                />
+                android:checked="false" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -126,52 +131,106 @@
                 android:layout_marginStart="@dimen/size_16"
                 android:layout_marginLeft="@dimen/size_16"
                 android:text="Select to Choose Guarantors"
-                android:textSize="@dimen/text_size_20sp"
                 android:textColor="@color/black"
+                android:textSize="@dimen/text_size_20sp"
 
                 />
 
         </LinearLayout>
 
 
-
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/amount"
-            android:layout_marginTop="@dimen/size_16"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_16">
 
             <EditText
                 android:id="@+id/amountEDX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Loan Amount" />
+                android:hint="Enter Loan Amount"
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
+
+
+        <TextView
+            android:id="@+id/tv_selectG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_16"
+            android:gravity="start"
+            android:text="Choose Guarantors"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="normal"
+            android:visibility="visible" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_50"
+            android:layout_marginTop="@dimen/size_32"
+            android:orientation="horizontal"
+            android:layout_above="@+id/view_below" >
+
+            <RadioButton
+                android:id="@+id/selfradio1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Self" />
+
+            <RadioButton
+                android:id="@+id/radio2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Self With Others" />
+            <RadioButton
+                android:id="@+id/radio3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Others" />
+
+
+        </RadioGroup>
         <Button
             android:id="@+id/btnLoan"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_50"
             android:background="@drawable/button"
             android:backgroundTint="@color/colorPrimary"
-            android:visibility="gone"
             android:text="Next"
-            android:textColor="@android:color/white" />
+            android:visibility="gone"
+            android:textColor="@android:color/white"
+             />
+
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/button"
-            android:backgroundTint="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center|bottom"
+            android:background="@drawable/custom_button"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/padding_50"
+            android:enabled="false"
             android:text="APPLY LOAN"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
 
     </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
