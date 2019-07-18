@@ -198,6 +198,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
             if(totals== (int)(Double.parseDouble(editLoanAmount.getText().toString()))) {
 
                 String loanid = getloanId();
+
+
                 submit(loanid);
 
 
@@ -390,7 +392,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
             insertGuarantors(loan_id,id_number,amount,applicant_id);
 
             }
-       // startActivity(new Intent(AddGuarantorActivity.this,MyLoansActivity.class));
+       startActivity(new Intent(AddGuarantorActivity.this,SuccessActivity.class));
 
 
 
@@ -416,8 +418,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                             Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "onResponse: " + response.body());
                             Log.e("Values", "" + response.body().toString());
-                            Intent mainIntent = new Intent(AddGuarantorActivity.this, MyLoansActivity.class);
-                            startActivity(mainIntent);
+
                         } else {
                             //Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }

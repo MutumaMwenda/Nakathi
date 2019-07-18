@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingTop="9dp"
-                    android:text="Requested Amount"
+                    android:text="Loan Amount"
                     android:textSize="@dimen/text_size_18sp"
                     android:textColor="@color/colorPrimaryDark" />
 
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingTop="9dp"
-                    android:text="Borrowed Amount"
+                    android:text="Amount to Guarantee"
                     android:textSize="@dimen/text_size_18sp"
                     android:textColor="@color/colorPrimaryDark" />
 

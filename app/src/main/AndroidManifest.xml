@@ -52,7 +52,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity android:name=".SuccessActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".MyLoansActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity android:name=".GetGuarantorActivity"
