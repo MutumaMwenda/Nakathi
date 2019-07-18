@@ -66,7 +66,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     private String fnames,guarantorIdNo,amount;
     TextView selftv;
     SelectGuarantorAdapter selectGuarantorAdapter;
-    private String lastInsertedId,amountBorrowed,member,loantype;
+    private String lastInsertedId,amountBorrowed,member,loantype,loanid;
 
 
     @Override
@@ -197,10 +197,52 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
             if(totals== (int)(Double.parseDouble(editLoanAmount.getText().toString()))) {
 
-                String loanid = getloanId();
+                 loanid = getloanId();
+                Log.e(TAG, "send: "+loanid );
 
 
-                submit(loanid);
+                String applicant_id = member;
+                String name=null;
+                String id_number=null;
+                String amount=null;
+                List<MembersModel> guarantorsSubmit = new ArrayList<>();
+
+
+                for (int i = 0; i < SelectGuarantorAdapter.membersModels.size(); i++) {
+                    Log.e(TAG, "submit: " + SelectGuarantorAdapter.membersModels.size());
+                    name = SelectGuarantorAdapter.membersModels.get(i).name;
+                    id_number = SelectGuarantorAdapter.membersModels.get(i).id_number;
+                    amount = SelectGuarantorAdapter.membersModels.get(i).amount;
+                    if (amount.isEmpty()) {
+                        adapter.notifyItemChanged(i);
+                        Toast.makeText(this, "Check amount for each guarantor", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    }
+
+                    if (!guarantorsSubmit.contains(SelectGuarantorAdapter.membersModels.get(i).id_number)) {
+
+                        guarantorsSubmit.add(SelectGuarantorAdapter.membersModels.get(i));
+
+                    }
+
+                    Log.e(TAG, "submit: " + "Name --->" + name + " Id number " + id_number + " Amount " + amount + " Applicant Id " + applicant_id);
+                }
+
+                List<MembersModel> membersModels= guarantorModels;
+                Log.e(TAG, "no of guarantors to submit"+guarantorsSubmit.size() );
+
+                for (int i = 0; i < guarantorsSubmit.size(); i++) {
+                    Log.e(TAG, "submit: " + SelectGuarantorAdapter.membersModels.size());
+                    name = guarantorsSubmit.get(i).name;
+                    id_number = guarantorsSubmit.get(i).id_number;
+                    amount = guarantorsSubmit.get(i).amount;
+                    insertGuarantors(loanid,id_number,amount,applicant_id);
+
+                }
+                startActivity(new Intent(AddGuarantorActivity.this,SuccessActivity.class));
+
+
 
 
 
@@ -229,8 +271,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                 if (response.isSuccessful())
                 {
-                    Log.e(TAG, "onResponse: "+response.body().getMessage() );
-                     lastInsertedId = response.body().getMessage();
+                    Log.e(TAG, "onResponse: "+response.body().message);
+                     lastInsertedId = response.body().message;
 
 
 
@@ -352,6 +394,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void submit(String loan_id) {
+        Log.e(TAG, "submit"+loan_id );
 
         String applicant_id = member;
         String name=null;

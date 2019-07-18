@@ -8,7 +8,7 @@ public class MessageModel {
 
     @SerializedName("message")
     @Expose
-    private String message;
+    public String message;
 
     public MessageModel(String message) {
         this.message = message;
