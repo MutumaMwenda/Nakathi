@@ -90,6 +90,19 @@ public class MemberDetails extends AppCompatActivity {
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);
         tvBorrowedOn.setText(strDate);
+        String loan_status =loanApplicantModel.status;
+        switch(loan_status)
+        {
+            case "1":
+               btnReject.setVisibility(View.GONE);
+               btnApprove.setVisibility(View.GONE);
+                break;
+            case "2":
+                btnReject.setVisibility(View.GONE);
+                btnApprove.setVisibility(View.GONE);
+                break;
+
+        }
 
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +124,7 @@ public class MemberDetails extends AppCompatActivity {
 //                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
 //                                startActivity(guaranteesIntent);
                                 status = "1";
-                                submit();
+                                submit(status);
 
 
 
@@ -154,7 +167,7 @@ public class MemberDetails extends AppCompatActivity {
 //                                Intent guaranteesIntent = new Intent(MemberDetails.this, ApproveLoanActivity.class);
 //                                startActivity(guaranteesIntent);
                                 status = "2";
-                                 submit();
+                                 submit(status);
 
 
 
@@ -180,10 +193,10 @@ public class MemberDetails extends AppCompatActivity {
 
 
     }
-    private void submit(){
+    private void submit(String status){
         AppUtilits.showDialog(this);
         Log.e(TAG, "submit: "+loanApplicantModel.loan_id+" "+status+"  "+member_id );
-        mService.approveLoan("1",loanApplicantModel.loan_id,member_id).enqueue(new Callback<MessageModel>() {
+        mService.approveLoan(status,loanApplicantModel.loan_id,member_id).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 Log.e(TAG, "onResponse: "+response.body().toString() );

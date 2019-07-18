@@ -43,7 +43,7 @@ public class NewOnesFragment extends Fragment {
     private String loan_id,amount;
     INakathiAPI mService;
 
-    public static NewOnesFragment newInstance() {
+    public static NewOnesFragment newInstance(String loantype) {
         NewOnesFragment fragment = new NewOnesFragment();
 
 

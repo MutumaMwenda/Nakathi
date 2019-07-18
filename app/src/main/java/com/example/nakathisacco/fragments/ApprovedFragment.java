@@ -38,7 +38,7 @@ public class ApprovedFragment extends Fragment {
     private String loan_id,amount;
     INakathiAPI mService;
 
-    public static ApprovedFragment newInstance() {
+    public static ApprovedFragment newInstance(String type) {
         ApprovedFragment fragment = new ApprovedFragment();
 
 

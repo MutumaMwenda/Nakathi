@@ -330,7 +330,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
 
                 }else{
-                    Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddGuarantorActivity.this, "", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -140,12 +140,12 @@ public class ApproveLoanActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return NewOnesFragment.newInstance();
+                    return NewOnesFragment.newInstance("new");
                 case 1:
-                    return ApprovedFragment.newInstance();
+                    return ApprovedFragment.newInstance("approved");
 
                 case 2:
-                    return RejectedOnesFragment.newInstance();
+                    return RejectedOnesFragment.newInstance("rejected");
 
             }
             return null;

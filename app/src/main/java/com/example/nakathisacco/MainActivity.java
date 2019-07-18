@@ -235,20 +235,20 @@ public class MainActivity extends AppCompatActivity
             alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle(getString(R.string.app_name));
             alertDialog.setMessage("Are you sure you want to logout?");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes",
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
                     new DialogInterface.OnClickListener() {
                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Yes",
+                    new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             session.setLoggedIn(false);
                             Toast.makeText(MainActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                             finish();
-                        }
-                    });
-
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
 
                         }
                     });
