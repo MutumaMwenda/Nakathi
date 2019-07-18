@@ -104,7 +104,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
         String gtype = getIntent().getExtras().getString("gtype");
         String savings = getIntent().getExtras().getString("savings");
 
-        Toast.makeText(this, amount+member+loantype+gtype+savings, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, amount+member+loantype+gtype+savings, Toast.LENGTH_SHORT).show();
         if (amountBorrowed!=null){
             editLoanAmount.setText(amountBorrowed);
         }
@@ -390,6 +390,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
             insertGuarantors(loan_id,id_number,amount,applicant_id);
 
             }
+       // startActivity(new Intent(AddGuarantorActivity.this,MyLoansActivity.class));
 
 
 
@@ -399,6 +400,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void insertGuarantors(String loan_id, String member_id, String amount, String applicant_id) {
+        Log.e(TAG, "loan id"+loan_id );
         Log.e(TAG, "insertGuarantors: ");
 
         mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<MessageModel>() {
@@ -417,10 +419,10 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                             Intent mainIntent = new Intent(AddGuarantorActivity.this, MyLoansActivity.class);
                             startActivity(mainIntent);
                         } else {
-                            Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AddGuarantorActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
 
