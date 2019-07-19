@@ -20,7 +20,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="imageview"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile" />
+            app:srcCompat="@drawable/ic_profile" />
 
         <LinearLayout
             android:id="@+id/list_item_holder"

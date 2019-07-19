@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/circle_pink">
+                    android:background="@drawable/circle_pink_outline">
 
                     <ImageView
                         android:id="@+id/item_image"
@@ -62,7 +62,6 @@
                         android:layout_height="300dp"
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
-                        android:tint="@color/white"
                         app:srcCompat="@drawable/ic_done" />
                 </FrameLayout>
 

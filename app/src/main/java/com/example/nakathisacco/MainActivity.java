@@ -26,9 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nakathisacco.HomePackage.LogIn;
+import com.example.nakathisacco.HomePackage.SplashScreen;
 import com.example.nakathisacco.Model.MembersModel;
 import com.example.nakathisacco.Model.MessageModel;
 import com.example.nakathisacco.Retrofit.INakathiAPI;
+import com.example.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.example.nakathisacco.UtilitiesPackage.Common;
 import com.example.nakathisacco.UtilitiesPackage.ItemsDecoration;
 import com.example.nakathisacco.UtilitiesPackage.Session;
@@ -148,10 +151,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getAccountInfo() {
-
+        //AppUtilits.showDialog(this);
         mService.getMemberInfo(session.getIdNumber()).enqueue(new Callback<MembersModel>() {
             @Override
             public void onResponse(Call<MembersModel> call, Response<MembersModel> response) {
+                AppUtilits.dismissDialog();
 
                 if(response.isSuccessful()){
 
@@ -173,7 +177,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<MembersModel> call, Throwable t) {
                 Log.e(TAG, "onFailure: "+t );
-                Toast.makeText(MainActivity.this, "The user does not exist in the system", Toast.LENGTH_SHORT).show();
+                //AppUtilits.dismissDialog();
+                startActivity(new Intent(MainActivity.this, LogIn.class));
+                //Toast.makeText(MainActivity.this, "The user does not exist in the system", Toast.LENGTH_SHORT).show();
 
             }
         });

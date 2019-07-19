@@ -90,20 +90,22 @@ public class MemberDetails extends AppCompatActivity {
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);
         tvBorrowedOn.setText(strDate);
-        String loan_status =loanApplicantModel.status;
-        switch(loan_status)
-        {
-            case "1":
-               btnReject.setVisibility(View.GONE);
-               btnApprove.setVisibility(View.GONE);
-                break;
-            case "2":
-                btnReject.setVisibility(View.GONE);
-                btnApprove.setVisibility(View.GONE);
-                break;
+        if (loanApplicantModel.status != null) {
 
+
+            String loan_status = loanApplicantModel.status;
+            switch (loan_status) {
+                case "1":
+                    btnReject.setVisibility(View.GONE);
+                    btnApprove.setVisibility(View.GONE);
+                    break;
+                case "2":
+                    btnReject.setVisibility(View.GONE);
+                    btnApprove.setVisibility(View.GONE);
+                    break;
+
+            }
         }
-
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
