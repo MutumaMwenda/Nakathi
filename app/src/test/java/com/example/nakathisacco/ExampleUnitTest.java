@@ -1,4 +1,4 @@
-package com.example.nakathisacco;
+package com.impax.nakathisacco;
 
 import org.junit.Test;
 
