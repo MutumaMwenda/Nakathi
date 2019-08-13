@@ -66,7 +66,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     private String fnames,guarantorIdNo,amount;
     TextView selftv;
     SelectGuarantorAdapter selectGuarantorAdapter;
-    public String lastInsertedId,amountBorrowed,member,loantype,loanid;
+    public String lastInsertedId,amountBorrowed,member,loantype,loanid,repay_period;
     private String id, gtype;
 
 
@@ -104,6 +104,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
          member = getIntent().getExtras().getString("member_id");
         loantype = getIntent().getExtras().getString("loantype");
          gtype = getIntent().getExtras().getString("gtype");
+         repay_period= getIntent().getExtras().getString("repay_period");
         String savings = getIntent().getExtras().getString("savings");
 
         //Toast.makeText(this, amount+member+loantype+gtype+savings, Toast.LENGTH_SHORT).show();
@@ -199,7 +200,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                 AppUtilits.showDialog(this);
 
-                mService.insertLoan(member,loantype,amountBorrowed).enqueue(new Callback<MessageModel>() {
+                mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                         AppUtilits.dismissDialog();
@@ -239,6 +240,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                             List<MembersModel> membersModels= guarantorModels;
                             Log.e(TAG, "no of guarantors to submit"+guarantorsSubmit.size() );
+                            Log.e(TAG,"");
+
 
                             for (int i = 0; i < guarantorsSubmit.size(); i++) {
                                 Log.e(TAG, "submit: " + SelectGuarantorAdapter.membersModels.size());
@@ -296,11 +299,12 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     }
     public void sendWithOthers(){
         if (editSelfAmount.getText().toString().isEmpty()) {
-            editSelfAmount.setError("Please enter amont ");
+            editSelfAmount.setError("Please enter amount ");
             editSelfAmount.requestFocus();
             return;
         }
-       double totals =  total()+Double.parseDouble(editSelfAmount.getText().toString());
+        final String self_amount =editSelfAmount.getText().toString();
+       double totals =  total()+Double.parseDouble(self_amount);
 
         if(chkTerms.isChecked()){
 
@@ -308,7 +312,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                 AppUtilits.showDialog(this);
 
-                mService.insertLoan(member,loantype,amountBorrowed).enqueue(new Callback<MessageModel>() {
+                mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                         AppUtilits.dismissDialog();
@@ -328,6 +332,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                             String id_number=null;
                             String amount=null;
                             List<MembersModel> guarantorsSubmit = new ArrayList<>();
+
+
 
 
                             for (int i = 0; i < SelectGuarantorAdapter.membersModels.size(); i++) {
@@ -357,6 +363,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                                 insertGuarantors(response.body().message,id_number,amount,applicant_id);
 
                             }
+                            insertGuarantors(response.body().message,id_number,self_amount,id_number);
                             startActivity(new Intent(AddGuarantorActivity.this,SuccessActivity.class));
 
 
@@ -406,7 +413,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     }
     private void getloanId(){
 
-        mService.insertLoan(member,loantype,amountBorrowed).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
@@ -499,7 +506,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                 Log.e(TAG, "onResponse: "+response.toString() );
 
                 if(response.isSuccessful()){
-                    if (response.body().id_number!=null) {
+                    if (response.body().amount!=null) {
 
                         tIidNo.setVisibility(View.GONE);
                         btnValidate.setVisibility(View.GONE);
@@ -507,9 +514,11 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                         tIamount.setVisibility(View.VISIBLE);
                         btnAddMore.setVisibility(View.VISIBLE);
                         amount=response.body().amount;
-                        fnames= response.body().name;
-                        guarantorIdNo= response.body().id_number;
-                        editfnames.setText(fnames);
+                        //fnames= response.body().name;
+                        //guarantorIdNo= response.body().id_number;
+                        guarantorIdNo= nationalID;
+                        //editfnames.setText(fnames);
+                        editAmount.setText(amount);
 
                     }else {
                         Toast.makeText(AddGuarantorActivity.this, " The member does not exist", Toast.LENGTH_SHORT).show();

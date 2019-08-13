@@ -5,12 +5,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoanTypeModel {
 
+
+
     @SerializedName("id")
     @Expose
     public String id;
     @SerializedName("name")
     @Expose
     public String name;
+    @SerializedName("interestRate")
+    @Expose
+    public String interestRate;
+    @SerializedName("repaymentPeriod")
+    @Expose
+    public String repaymentPeriod;
+    @SerializedName("loan_type_code")
+    @Expose
+    public String loan_type_code;
 
     public LoanTypeModel() {
 

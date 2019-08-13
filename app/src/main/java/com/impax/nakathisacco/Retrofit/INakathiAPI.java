@@ -129,7 +129,8 @@ public interface INakathiAPI {
     @POST("loan.php")
     Call<MessageModel>insertLoan(@Field("member_id" )String member_id,
                          @Field("loan_type_id" )String loan_type_id,
-                         @Field("amount" )String amount
+                         @Field("amount" )String amount,
+                         @Field("repay_period" )String repay_period
 
     );
     @FormUrlEncoded

@@ -70,7 +70,7 @@ public class NotificationActivity extends AppCompatActivity {
                 Log.e(TAG, "onResponse: "+response.body() );
 
                 if (response.body().isEmpty() || response.body().toString().equalsIgnoreCase("[]")) {
-                    Toast.makeText(NotificationActivity.this, "Members not available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationActivity.this, "There are no notifications", Toast.LENGTH_SHORT).show();
                 } else {
 
                     loanApplicantModels.clear();

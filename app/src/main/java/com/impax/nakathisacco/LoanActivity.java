@@ -41,7 +41,7 @@ import retrofit2.Response;
 
 public class LoanActivity extends AppCompatActivity {
 
-    private EditText loantypeid,memberid,amount,selfguarantAmount;
+    private EditText loantypeid,memberid,amount,selfguarantAmount,edt_repay_period;
     private Button mCreate,submit;
     private Spinner loanTypeSpinner;
     LoanTypeAdapter loanTypeAdapter;
@@ -74,6 +74,7 @@ public class LoanActivity extends AppCompatActivity {
         selfguarantAmount= findViewById(R.id.selfGuarantEd);
         mCreate= findViewById(R.id.btnLoan);
         tvLoanLimit = findViewById(R.id.tv_loanlimit);
+        edt_repay_period = findViewById(R.id.repay_period);
         submit = findViewById(R.id.btnSubmit);
         RadioGroup radioGroup = findViewById(R.id.radio_group);
         final int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
@@ -161,6 +162,14 @@ public class LoanActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 loanTypeModel = LoanTypeAdapter.loanTypeModels.get(position);
+                if (loanTypeModel.repaymentPeriod != null) {
+                    edt_repay_period.setText(loanTypeModel.repaymentPeriod);
+
+                }
+
+
+
+
 
             }
 
@@ -245,8 +254,9 @@ public class LoanActivity extends AppCompatActivity {
                 String sAmount= String.valueOf(doubleAmt);
                 String member_id = session.getIdNumber();
                 String loantypeId = loanTypeModel.id;
+                String repay_period = loanTypeModel.repaymentPeriod;
                 session.setAmount(sAmount);
-                applyLoanSelf(member_id,loantypeId,sAmount);
+                applyLoanSelf(member_id,loantypeId,sAmount,repay_period);
 
             }
         });
@@ -287,6 +297,7 @@ public class LoanActivity extends AppCompatActivity {
                intent.putExtra("loantype",loantypeId);
                intent.putExtra("gtype",guarantorType);
                intent.putExtra("savings",tvLoanLimit.getText());
+               intent.putExtra("repay_period",loanTypeModel.repaymentPeriod);
                startActivity(intent);
 
 
@@ -330,7 +341,7 @@ public class LoanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SavingsModel> call, Response<SavingsModel> response) {
                 if (response.body() != null) {
-                    savings=response.body().available_amount;
+                    savings=response.body().amount;
                     double doubleSavings = Double.parseDouble(savings);
                     loanlimit  = doubleSavings*rate;
                     Integer limit =(int) loanlimit;
@@ -359,10 +370,10 @@ public class LoanActivity extends AppCompatActivity {
 
     }
 
-    private void applyLoanSelf(String member_id, final String loan_type_id, final String amount) {
+    private void applyLoanSelf(final String member_id, final String loan_type_id, final String amount, final String repay_period) {
         AppUtilits.showDialog(this);
 
-        mService.insertLoan(member_id,loan_type_id,amount).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member_id,loan_type_id,amount,repay_period).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
@@ -375,7 +386,7 @@ public class LoanActivity extends AppCompatActivity {
                     if (!lastInsertedId.equals("-1"))
                         session.setLoanId(lastInsertedId);
                     Log.e(TAG, "session loan id "+session.getLoanId() );
-                    Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
+                    insertGuarantors(response.body().getMessage(),member_id,amount,member_id);
                     Log.e("res",""+ response);
                     Intent intent= new Intent(LoanActivity.this,SuccessActivity.class);
                     startActivity(intent);
@@ -391,10 +402,10 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
     }
-    private void applyLoan(String member_id, final String loan_type_id, final String amount) {
+    private void applyLoan(final String member_id, final String loan_type_id, final String amount, final String repay_period) {
         AppUtilits.showDialog(this);
 
-        mService.insertLoan(member_id,loan_type_id,amount).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member_id,loan_type_id,amount,repay_period).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
@@ -407,8 +418,6 @@ public class LoanActivity extends AppCompatActivity {
                     if (!lastInsertedId.equals("-1"))
                         session.setLoanId(lastInsertedId);
                     Log.e(TAG, "session loan id "+session.getLoanId() );
-                    //Toast.makeText(LoanActivity.this, "Loan Successfully applied", Toast.LENGTH_SHORT).show();
-                    Log.e("res",""+ response);
                     Intent intent= new Intent(LoanActivity.this,AddGuarantorActivity.class);
                     startActivity(intent);
 
@@ -427,5 +436,36 @@ public class LoanActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    private void insertGuarantors(String loan_id, String member_id, String amount, String applicant_id) {
+        Log.e(TAG, "loan id"+loan_id );
+        Log.e(TAG, "insertGuarantors: ");
+
+        mService.insertGuarantors(loan_id, member_id, amount, applicant_id).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                if (response.isSuccessful()) {
+                    String msg = response.body().getMessage();
+                    if (msg != null) {
+                        if (msg.equalsIgnoreCase("true")) {
+                            // Toast.makeText(AddGuarantorActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "onResponse: " + response.body());
+                            Log.e("Values", "" + response.body().toString());
+
+                        } else {
+                        }
+                    } else {
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 }

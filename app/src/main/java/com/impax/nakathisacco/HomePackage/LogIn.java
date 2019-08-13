@@ -132,6 +132,7 @@ public class LogIn extends AppCompatActivity {
     }
 
     private void getAccountInfo() {
+        Log.e(TAG, "idnumber "+id_number );
 
         mService.getMemberInfo(id_number).enqueue(new Callback<MembersModel>() {
             @Override
@@ -159,7 +160,7 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onFailure(Call<MembersModel> call, Throwable t) {
                 Log.e(TAG, "onFailure: "+t );
-                Toast.makeText(LogIn.this, "The user does not exist in the system", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogIn.this, "Error occured while processing your request", Toast.LENGTH_SHORT).show();
 
             }
         });
