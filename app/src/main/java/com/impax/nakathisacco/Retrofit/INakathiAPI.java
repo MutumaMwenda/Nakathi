@@ -91,6 +91,10 @@ public interface INakathiAPI {
     Call<List<AssetsModel>>getTaggedVehicles(@Field("id_number")String id_number
     );
     @FormUrlEncoded
+    @POST("asset.php")
+    Call<AssetsModel>getAssets(@Field("id_number")String id_number
+    );
+    @FormUrlEncoded
     @POST("getSavingsLog.php")
     Call<List<SavingsLogModel>>getSavingsLog(@Field("id_number")String id_number
     );

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.impax.nakathisacco.Model.AssetsModel;
@@ -30,7 +31,7 @@ public class AssetsActivity extends AppCompatActivity {
     Session session;
     String id_number;
     private RecyclerView recyclerView;
-    private List<AssetsModel> assetModels = new ArrayList<>();
+    private AssetsModel assetModels = new AssetsModel();
     RecyclerView.Adapter adapter = null;
 
     private String reg_no,name;
@@ -54,7 +55,8 @@ public class AssetsActivity extends AppCompatActivity {
         adapter = new AssetAdapter(this,assetModels);
         recyclerView.setAdapter(adapter);
         id_number= session.getIdNumber();
-        getTaggedVehicles(id_number);
+        //getTaggedVehicles(id_number);
+        getAssets(id_number);
     }
 
     private void getTaggedVehicles(String id_number) {
@@ -65,8 +67,8 @@ public class AssetsActivity extends AppCompatActivity {
                     Toast.makeText(AssetsActivity.this, "Assets not available", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    assetModels.clear();
-                    assetModels.addAll(response.body());
+                    assetModels.message.clear();
+                   // assetModels.addAll(response.body());
                     adapter.notifyDataSetChanged();
 
                 }
@@ -77,6 +79,38 @@ public class AssetsActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: "+t );
 
                 Toast.makeText(AssetsActivity.this, "Error occurred while processing your request", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void getAssets(String id_number) {
+        Log.e(TAG, "getAssets: "+id_number );
+        mService.getAssets(id_number).enqueue(new Callback<AssetsModel>() {
+            @Override
+            public void onResponse(Call<AssetsModel> call, Response<AssetsModel> response) {
+                Log.e(TAG, "onResponse: "+response.body().message );
+
+                if (response.body().message.isEmpty() || response.body().toString().equalsIgnoreCase("[]")) {
+                    // Toast.makeText(MyLoansActivity.this, "No loans", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(AssetsActivity.this, "Nothing available to display", Toast.LENGTH_SHORT).show();
+
+
+                } else {
+                    assetModels.message.clear();
+                    assetModels.message.addAll(response.body().message);
+                    adapter.notifyDataSetChanged();
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AssetsModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: "+t);
 
             }
         });

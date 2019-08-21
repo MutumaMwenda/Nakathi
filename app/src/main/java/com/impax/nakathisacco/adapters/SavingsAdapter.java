@@ -106,7 +106,7 @@ public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHo
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvLicense = itemView.findViewById(R.id.tv_license);
+            tvLicense = itemView.findViewById(R.id.tvl_name);
             tvExpiryDate = itemView.findViewById(R.id.tv_expiryDate);
             tvStatus = itemView.findViewById(R.id.tv_status);
             tvStatusColor = itemView.findViewById(R.id.tv_statusColor);

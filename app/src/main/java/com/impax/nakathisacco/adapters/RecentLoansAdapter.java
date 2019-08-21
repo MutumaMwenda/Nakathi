@@ -19,6 +19,7 @@ import com.impax.nakathisacco.MyLoansActivity;
 import com.impax.nakathisacco.R;
 import com.impax.nakathisacco.SavingsActivity;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -57,15 +58,15 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
         final Loan loan=loans.get(position);
         String loan_status = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yy");
         java.sql.Timestamp ts = java.sql.Timestamp.valueOf(loan.date_requested) ;
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);
         String status = loan.status;
-        switch("0")
+        switch(status)
         {
             case "0":
-                loan_status = "Draft";
+                loan_status = "In Review";
                 break;
             case "1":
                 loan_status = "Approved";
@@ -82,7 +83,9 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
 
         }
         holder.tvStatus.setText(loan_status);
-        holder.tvAmount.setText(loan.p_amount);
+        double amount = Double.parseDouble(loan.p_amount);
+        DecimalFormat format = new DecimalFormat("#,###");
+        holder.tvAmount.setText(format.format(amount));
         holder.tvDate.setText(strDate);
     }
 

@@ -3,6 +3,7 @@ package com.impax.nakathisacco.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.impax.nakathisacco.AssetDetails;
 import com.impax.nakathisacco.AssetRevenueActivity;
 import com.impax.nakathisacco.GuarantorActivity;
 import com.impax.nakathisacco.Model.AssetsModel;
 import com.impax.nakathisacco.Model.CertsModel;
+import com.impax.nakathisacco.Model.Vehicle;
 import com.impax.nakathisacco.R;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
 
@@ -24,22 +27,20 @@ import java.util.List;
 
 public class AssetAdapter extends RecyclerView.Adapter<AssetAdapter.MyViewHolder> {
     private Context mcontext;
-    private List<AssetsModel> assetsModels;
+    private AssetsModel assetsModel;
     String regNo,routeName;
    /*
    INakathiAPI mService;
    String status;
    */
 
-    public AssetAdapter(List<AssetsModel> assetsModel) {
-        assetsModels = assetsModel;
-    }
 
 
 
-    public AssetAdapter(Context mcontext, List<AssetsModel> assetsModel) {
+
+    public AssetAdapter(Context mcontext, AssetsModel assetsModel) {
         this.mcontext = mcontext;
-        this.assetsModels= assetsModel;
+        this.assetsModel= assetsModel;
 
     }
 
@@ -61,19 +62,22 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        final AssetsModel assetsModel=assetsModels.get(position);
+        final Vehicle vModel= assetsModel.message.get(position);
 
-        holder.tvVehicle.setText(assetsModel.reg_no.toUpperCase());
-        holder.tvRoute.setText("Route : "+assetsModel.name);
+        holder.tvVehicle.setText(vModel.reg_no.toUpperCase());
+       // holder.tvRoute.setText("Route : "+assetsModel.name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext, "You clicked", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(mcontext, AssetRevenueActivity.class);
-                String strReg = assetsModel.reg_no;
+                //Toast.makeText(mcontext, "You clicked", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(mcontext, AssetDetails.class);
+                i.putExtra(AssetDetails.ASSET_ITEM_KEY, assetsModel.message.get(position));
+
+                String strReg = vModel.reg_no;
                 i.putExtra("reg_no", strReg);
-                String strName = assetsModel.name;
-                i.putExtra("route_name", strName);
+             //   String strName = assetsModel.name;
+               /// i.putExtra("route_name", strName);
                 mcontext.startActivity(i);
                // mcontext.startActivity(new Intent(mcontext, AssetRevenueActivity.class));
 
@@ -85,7 +89,7 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return assetsModels.size();
+        return assetsModel.message.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

@@ -43,6 +43,10 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
+         <activity android:name=".AssetDetails"
+            android:parentActivityName=".AssetsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".ApproveLoanActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"

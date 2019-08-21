@@ -60,8 +60,8 @@ public class LoanBalanceActivity extends AppCompatActivity {
         adapter = new LoanBalanceAdapter(this,loanBalanceModels);
         recyclerView.setAdapter(adapter);
 
-        getLoanInfo(id_number);
-        getLoanBalance(id_number);
+        //getLoanInfo(id_number);
+        //getLoanBalance(id_number);
     }
     private void getLoanInfo(String id_number){
         mService.getLoanInfo(id_number).enqueue(new Callback<SavingsModel>() {

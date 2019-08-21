@@ -1,7 +1,6 @@
 package com.impax.nakathisacco.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,28 +11,29 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.impax.nakathisacco.Model.CertsModel;
-import com.impax.nakathisacco.Model.LoanApplicantModel;
+import com.impax.nakathisacco.Model.Driver;
+import com.impax.nakathisacco.Model.License;
 import com.impax.nakathisacco.R;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 
-public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder> {
+public class LicenceAdapter extends RecyclerView.Adapter<LicenceAdapter.MyViewHolder> {
     private Context mcontext;
-    private List<CertsModel> certsModels;
+    private List<License> mLicenses;
     INakathiAPI mService;
-     String status;
+     String loan_id;
 
 
 
 
-    public CertsAdapter(Context mcontext, List<CertsModel> certsModel) {
+    public LicenceAdapter(Context mcontext, List<License> licenses) {
         this.mcontext = mcontext;
-        this.certsModels= certsModel;
+        this.mLicenses = licenses;
 
     }
 
@@ -45,7 +45,7 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
 
     @NonNull
     @Override
-    public CertsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LicenceAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mcontext);
         View itemView = inflater.inflate(R.layout.item_cert, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(itemView);
@@ -53,30 +53,35 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CertsAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull LicenceAdapter.MyViewHolder holder, final int position) {
+        final License license= mLicenses.get(position);
 
-        final CertsModel certsModel=certsModels.get(position);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-        java.sql.Timestamp ts = java.sql.Timestamp.valueOf(certsModel.expiryDate ) ;
-        Date date = new Date(ts.getTime());
-        String strDate = formatter.format(date);
+        java.sql.Timestamp da = java.sql.Timestamp.valueOf(license.activefrom) ;
+        java.sql.Timestamp dt = java.sql.Timestamp.valueOf(license.expiryDate ) ;
+        Date date_da= new Date(da.getTime());
+        Date date_to= new Date(dt.getTime());
+        String date_active = formatter.format(date_da);
+        String date_expire = formatter.format(date_to);
 
 
-
-        holder.tvLicense.setText(certsModel.name);
-        holder.tvExpiryDate.setText("Expiry Date : "+strDate);
-        int checkStatus = Integer.parseInt(certsModel.status);
+        holder.tvName.setText(license.name);
+        holder.tvactive.setText("Active From: "+date_active);
+        holder.tvExp.setText("Expiry Date: "+date_expire);
+        DecimalFormat formatter2 = new DecimalFormat("#,###");
+        int checkStatus = Integer.parseInt(license.status);
+        String status;
         switch(checkStatus)
         {
-            case 0:
+            case 1:
                 status = "New";
                 holder.tvStatusColor.setBackgroundColor(Color.GREEN);
                 holder.tvStatusColor.setText(status);
 
                 break;
 
-            case 1:
+            case 0:
                 status = "Warning";
                 holder.tvStatusColor.setBackgroundColor(Color.parseColor("#FFA500"));
                 holder.tvStatusColor.setText(status);
@@ -92,8 +97,8 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
                 break;
 
         }
+      //  holder.tvStatus.setText(license.status);
 
-        holder.tvStatus.setText("Status : "+status);
 
 
 
@@ -106,22 +111,24 @@ public class CertsAdapter extends RecyclerView.Adapter<CertsAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return certsModels.size();
+        return mLicenses.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvLicense, tvExpiryDate, tvStatus, tvStatusColor;
+        public TextView tvName, tvactive, tvExp, tvStatus,tvStatusColor;
         public ImageView imageView;
-
+        private Button btnApprove;
         public View mView;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvLicense = itemView.findViewById(R.id.tvl_name);
-            tvExpiryDate = itemView.findViewById(R.id.tv_expiryDate);
-            tvStatus = itemView.findViewById(R.id.tv_status);
-            tvStatusColor = itemView.findViewById(R.id.tv_statusColor);
+            tvName = itemView.findViewById(R.id.tvl_name);
+            tvactive= itemView.findViewById(R.id.tv_active_from);
+            tvExp= itemView.findViewById(R.id.tv_expiryDate);
+            tvStatus= itemView.findViewById(R.id.tv_status);
+            tvStatusColor= itemView.findViewById(R.id.tv_statusColor);
+            //tvBorrowedOn = itemView.findViewById(R.id.tv_borrowed_on);
             imageView = itemView.findViewById(R.id.list_imageview);
             mView = itemView;
         }
