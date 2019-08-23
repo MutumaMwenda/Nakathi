@@ -43,7 +43,7 @@ public class MyLoansActivity extends AppCompatActivity {
 
     private static final String TAG = MyLoansActivity.class.getSimpleName();
     private Session session;
-    double rate=3.50,doubleSavings,maximumCanBorrow;
+    double rate=1,doubleSavings,maximumCanBorrow;
     private String amt;
     private String savings;
     private TextView tvDisplayMaximumLoan,tv_display_no_loans;

@@ -1,5 +1,6 @@
 package com.impax.nakathisacco;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -48,7 +51,7 @@ public class LoanActivity extends AppCompatActivity {
     private static final String TAG = LoanActivity.class.getSimpleName();
     LoanTypeModel loanTypeModel;
     private Session session;
-    double rate=3.50;
+    double rate=1;
     double loanlimit;
     private String amt;
     private String savings="";
@@ -178,6 +181,51 @@ public class LoanActivity extends AppCompatActivity {
 
             }
         });
+        edt_repay_period.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (!editable.toString().isEmpty()) {
+                    String newValue = editable.toString();
+                    if (newValue.length() > 1 && newValue.startsWith("0")) {
+                        newValue = newValue.substring(1);
+                        edt_repay_period.setText(newValue);
+                        edt_repay_period.setSelection(newValue.length());
+                    }
+                    Double requested = Double.valueOf(newValue);
+                    Double period =Double.valueOf(loanTypeModel.repaymentPeriod);
+                    if (requested > period) {
+                        edt_repay_period.removeTextChangedListener(this);
+                        edt_repay_period.setText(Double.toString(period));
+                        edt_repay_period.setSelection(edt_repay_period.getText().length());
+                        Toast.makeText(LoanActivity.this, "Maximum repayment period has been reached", Toast.LENGTH_LONG).show();
+                        edt_repay_period.addTextChangedListener(this);
+                        submit.setEnabled(false);
+                    } else if
+                    (checkedRadioButtonId == R.id.selfradio1) {
+                        submit.setEnabled(true);
+
+
+
+
+                    }
+                } else {
+                    edt_repay_period.setText("0");
+                    edt_repay_period.setSelection(1+amount.getText().length());
+                }
+
+            }
+        });
         amount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -228,7 +276,7 @@ public class LoanActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if (amount.getText().toString().isEmpty()) {
+                if (amount.getText().toString().isEmpty()|| Double.parseDouble(amount.getText().toString())<100) {
                     amount.setError("Enter amount");
                     amount.requestFocus();
                     return;
@@ -251,12 +299,55 @@ public class LoanActivity extends AppCompatActivity {
                 }
 
 
-                String sAmount= String.valueOf(doubleAmt);
-                String member_id = session.getIdNumber();
-                String loantypeId = loanTypeModel.id;
-                String repay_period = loanTypeModel.repaymentPeriod;
+               final String sAmount= String.valueOf(doubleAmt);
+               final String member_id = session.getIdNumber();
+                final String loantypeId = loanTypeModel.id;
+                 final String repay_period = loanTypeModel.repaymentPeriod;
+                final String interestRate = loanTypeModel.interestRate;
+                String loan_name = loanTypeModel.name;
                 session.setAmount(sAmount);
-                applyLoanSelf(member_id,loantypeId,sAmount,repay_period);
+
+                final Dialog dialog = new Dialog(LoanActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.review_loan);
+                dialog.getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
+
+                TextView r_amount =  dialog.findViewById(R.id.tv_review_amount);
+                TextView r_type =  dialog.findViewById(R.id.tv_review_type);
+                TextView r_interest =  dialog.findViewById(R.id.tv_interest);
+                TextView r_interest_rate =  dialog.findViewById(R.id.tv_interest_rate);
+                TextView r_period =  dialog.findViewById(R.id.tv_pay_period);
+                TextView r_total =  dialog.findViewById(R.id.tv_pay_amount);
+                TextView text =  dialog.findViewById(R.id.tv_review_amount);
+                double my_amount = Double.parseDouble(sAmount);
+                DecimalFormat formatter = new DecimalFormat("#,###");
+                text.setText("Amount : "+formatter.format(my_amount));
+                r_type.setText("Type : "+loan_name);
+                r_interest_rate.setText("Rate :"+interestRate+"%");
+                r_period.setText("Repay Period : "+repay_period+" Months");
+                double interest = Double.parseDouble(interestRate)/100*doubleAmt;
+                r_interest.setText("Interest : "+String.valueOf(formatter.format(interest)));
+                double total_pay = my_amount+interest;
+                r_total.setText("Total : "+String.valueOf(formatter.format(total_pay)));
+
+                Button cancelButton = dialog.findViewById(R.id.btn_cancel);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                Button proceedButton = dialog.findViewById(R.id.btn_ok);
+                proceedButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        applyLoanSelf(member_id,loantypeId,sAmount,repay_period,interestRate);
+                    }
+                });
+
+                dialog.show();
+
 
             }
         });
@@ -298,6 +389,8 @@ public class LoanActivity extends AppCompatActivity {
                intent.putExtra("gtype",guarantorType);
                intent.putExtra("savings",tvLoanLimit.getText());
                intent.putExtra("repay_period",loanTypeModel.repaymentPeriod);
+               intent.putExtra("rate",loanTypeModel.interestRate);
+               intent.putExtra("l_name",loanTypeModel.name);
                startActivity(intent);
 
 
@@ -370,10 +463,10 @@ public class LoanActivity extends AppCompatActivity {
 
     }
 
-    private void applyLoanSelf(final String member_id, final String loan_type_id, final String amount, final String repay_period) {
+    private void applyLoanSelf(final String member_id, final String loan_type_id, final String amount, final String repay_period, final String rate) {
         AppUtilits.showDialog(this);
 
-        mService.insertLoan(member_id,loan_type_id,amount,repay_period).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member_id,loan_type_id,amount,repay_period,rate).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
@@ -402,10 +495,10 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
     }
-    private void applyLoan(final String member_id, final String loan_type_id, final String amount, final String repay_period) {
+    private void applyLoan(final String member_id, final String loan_type_id, final String amount, final String repay_period,final String rate) {
         AppUtilits.showDialog(this);
 
-        mService.insertLoan(member_id,loan_type_id,amount,repay_period).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member_id,loan_type_id,amount,repay_period,rate).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();

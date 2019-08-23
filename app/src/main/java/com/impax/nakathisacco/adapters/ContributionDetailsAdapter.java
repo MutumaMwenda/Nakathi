@@ -12,11 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.impax.nakathisacco.AddGuarantorActivity;
-import com.impax.nakathisacco.AssetDetails;
 import com.impax.nakathisacco.ContributionDetails;
 import com.impax.nakathisacco.Model.Contribution;
-import com.impax.nakathisacco.Model.Driver;
 import com.impax.nakathisacco.R;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
 
@@ -26,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapter.MyViewHolder> {
+public class ContributionDetailsAdapter extends RecyclerView.Adapter<ContributionDetailsAdapter.MyViewHolder> {
     private Context mcontext;
     private List<Contribution> mContributions;
     INakathiAPI mService;
@@ -35,7 +32,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
 
 
 
-    public ContributionAdapter(Context mcontext, List<Contribution> contributions) {
+    public ContributionDetailsAdapter(Context mcontext, List<Contribution> contributions) {
         this.mcontext = mcontext;
         this.mContributions= contributions;
 
@@ -49,15 +46,15 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
 
     @NonNull
     @Override
-    public ContributionAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContributionDetailsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mcontext);
-        View itemView = inflater.inflate(R.layout.item_contributions, parent, false);
+        View itemView = inflater.inflate(R.layout.item_contributions_details, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(itemView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContributionAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ContributionDetailsAdapter.MyViewHolder holder, final int position) {
         final Contribution contribution= mContributions.get(position);
 
 
@@ -70,23 +67,23 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
        // String assigned_up_to_date = formatter.format(date_to);
 
 
-        holder.tvTrans.setText(contribution.transaction_id);
+        holder.tvTrans.setText(contribution.name);
         DecimalFormat formatter2 = new DecimalFormat("#,###");
         double amount = Double.parseDouble(contribution.amount);
         holder.tvAmount.setText("Amount : "+formatter2.format(amount));
         holder.tvDate.setText(c_date);
        // DecimalFormat formatter2 = new DecimalFormat("#,###");
         //holder.tvSname.setText(driver.s_name);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Toast.makeText(mcontext, "Working HERE", Toast.LENGTH_SHORT).show();
-
-                Intent  intent = new Intent(mcontext, ContributionDetails.class);
-                intent.putExtra(ContributionDetails.CONTRIBUTION_DETAILS_ITEM_KEY, mContributions.get(position));
-                mcontext.startActivity(intent);
-            }
-        });
+//        holder.mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(mcontext, "Working HERE", Toast.LENGTH_SHORT).show();
+//
+//                Intent  intent = new Intent(mcontext, ContributionDetails.class);
+//                intent.putExtra(ContributionDetails.CONTRIBUTION_DETAILS_ITEM_KEY, mContributions.get(position));
+//                mcontext.startActivity(intent);
+//            }
+//        });
 
 
 

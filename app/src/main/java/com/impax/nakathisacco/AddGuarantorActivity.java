@@ -1,5 +1,6 @@
 package com.impax.nakathisacco;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -34,6 +37,7 @@ import com.impax.nakathisacco.UtilitiesPackage.Session;
 import com.impax.nakathisacco.adapters.GuarantorCursorAdapter;
 import com.impax.nakathisacco.adapters.SelectGuarantorAdapter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +70,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     private String fnames,guarantorIdNo,amount;
     TextView selftv;
     SelectGuarantorAdapter selectGuarantorAdapter;
-    public String lastInsertedId,amountBorrowed,member,loantype,loanid,repay_period;
+    public String lastInsertedId,amountBorrowed,member,loantype,loanid,repay_period,rate,l_name;
     private String id, gtype;
 
 
@@ -105,6 +109,8 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
         loantype = getIntent().getExtras().getString("loantype");
          gtype = getIntent().getExtras().getString("gtype");
          repay_period= getIntent().getExtras().getString("repay_period");
+         rate= getIntent().getExtras().getString("rate");
+         l_name= getIntent().getExtras().getString("l_name");
         String savings = getIntent().getExtras().getString("savings");
 
         //Toast.makeText(this, amount+member+loantype+gtype+savings, Toast.LENGTH_SHORT).show();
@@ -174,10 +180,110 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.btnsend:
                 if(gtype.equalsIgnoreCase("others")){
-                    sendOthers();
+
+                    final String sAmount= amountBorrowed;
+                    final String member_id = member;
+                    final String loantypeId = loantype;
+                    final String rp_period = repay_period;
+                    final String interestRate = rate;
+                    String loan_name = l_name;
+                    session.setAmount(sAmount);
+
+                    final Dialog dialog = new Dialog(AddGuarantorActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.review_loan);
+                    dialog.getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
+
+                    TextView r_amount =  dialog.findViewById(R.id.tv_review_amount);
+                    TextView r_type =  dialog.findViewById(R.id.tv_review_type);
+                    TextView r_interest =  dialog.findViewById(R.id.tv_interest);
+                    TextView r_interest_rate =  dialog.findViewById(R.id.tv_interest_rate);
+                    TextView r_period =  dialog.findViewById(R.id.tv_pay_period);
+                    TextView r_total =  dialog.findViewById(R.id.tv_pay_amount);
+                    TextView text =  dialog.findViewById(R.id.tv_review_amount);
+                    double my_amount = Double.parseDouble(sAmount);
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    text.setText("Amount : "+formatter.format(my_amount));
+                    r_type.setText("Type : "+loan_name);
+                    r_interest_rate.setText("Rate :"+interestRate+"%");
+                    r_period.setText("Repay Period : "+repay_period+" Months");
+                    double interest = Double.parseDouble(interestRate)/100* Double.parseDouble(sAmount);
+                    r_interest.setText("Interest : "+String.valueOf(formatter.format(interest)));
+                    double total_pay = my_amount+interest;
+                    r_total.setText("Total : "+String.valueOf(formatter.format(total_pay)));
+
+                    Button cancelButton = dialog.findViewById(R.id.btn_cancel);
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    Button proceedButton = dialog.findViewById(R.id.btn_ok);
+                    proceedButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendOthers();
+
+                        }
+                    });
+
+                    dialog.show();
+
+                    //sendOthers();
 
                 } else {
-                    sendWithOthers();
+                    final String sAmount= amountBorrowed;
+                    final String member_id = member;
+                    final String loantypeId = loantype;
+                    final String rp_period = repay_period;
+                    final String interestRate = rate;
+                    String loan_name = l_name;
+                    session.setAmount(sAmount);
+
+                    final Dialog dialog = new Dialog(AddGuarantorActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.review_loan);
+                    dialog.getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
+
+                    TextView r_amount =  dialog.findViewById(R.id.tv_review_amount);
+                    TextView r_type =  dialog.findViewById(R.id.tv_review_type);
+                    TextView r_interest =  dialog.findViewById(R.id.tv_interest);
+                    TextView r_interest_rate =  dialog.findViewById(R.id.tv_interest_rate);
+                    TextView r_period =  dialog.findViewById(R.id.tv_pay_period);
+                    TextView r_total =  dialog.findViewById(R.id.tv_pay_amount);
+                    TextView text =  dialog.findViewById(R.id.tv_review_amount);
+                    double my_amount = Double.parseDouble(sAmount);
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    text.setText("Amount : "+formatter.format(my_amount));
+                    r_type.setText("Type : "+loan_name);
+                    r_interest_rate.setText("Rate :"+interestRate+"%");
+                    r_period.setText("Repay Period : "+repay_period+" Months");
+                    double interest = Double.parseDouble(interestRate)/100* Double.parseDouble(sAmount);
+                    r_interest.setText("Interest : "+String.valueOf(formatter.format(interest)));
+                    double total_pay = my_amount+interest;
+                    r_total.setText("Total : "+String.valueOf(formatter.format(total_pay)));
+
+                    Button cancelButton = dialog.findViewById(R.id.btn_cancel);
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    Button proceedButton = dialog.findViewById(R.id.btn_ok);
+                    proceedButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendWithOthers();
+
+                        }
+                    });
+
+                    dialog.show();
+                   // sendWithOthers();
                 }
                 break;
 
@@ -200,7 +306,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                 AppUtilits.showDialog(this);
 
-                mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
+                mService.insertLoan(member,loantype,amountBorrowed,repay_period,rate).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                         AppUtilits.dismissDialog();
@@ -312,7 +418,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
 
                 AppUtilits.showDialog(this);
 
-                mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
+                mService.insertLoan(member,loantype,amountBorrowed,repay_period,rate).enqueue(new Callback<MessageModel>() {
                     @Override
                     public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                         AppUtilits.dismissDialog();
@@ -363,7 +469,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
                                 insertGuarantors(response.body().message,id_number,amount,applicant_id);
 
                             }
-                            insertGuarantors(response.body().message,id_number,self_amount,id_number);
+                            insertGuarantors(response.body().message,member,self_amount,member);
                             startActivity(new Intent(AddGuarantorActivity.this,SuccessActivity.class));
 
 
@@ -413,7 +519,7 @@ public class AddGuarantorActivity extends AppCompatActivity implements View.OnCl
     }
     private void getloanId(){
 
-        mService.insertLoan(member,loantype,amountBorrowed,repay_period).enqueue(new Callback<MessageModel>() {
+        mService.insertLoan(member,loantype,amountBorrowed,repay_period,rate).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();

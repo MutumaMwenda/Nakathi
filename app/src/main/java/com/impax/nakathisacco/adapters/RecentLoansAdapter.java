@@ -58,7 +58,7 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
         final Loan loan=loans.get(position);
         String loan_status = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
         java.sql.Timestamp ts = java.sql.Timestamp.valueOf(loan.date_requested) ;
         Date date = new Date(ts.getTime());
         String strDate = formatter.format(date);

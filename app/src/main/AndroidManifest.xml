@@ -59,6 +59,10 @@
             android:parentActivityName=".MyLoansActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity android:name=".ContributionDetails"
+            android:parentActivityName=".AssetsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".GetGuarantorActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />

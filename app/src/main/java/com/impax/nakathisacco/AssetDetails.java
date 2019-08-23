@@ -49,14 +49,19 @@ public class AssetDetails extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        vehicle = getIntent().getExtras().getParcelable(AssetDetails.ASSET_ITEM_KEY);
-        if (vehicle== null) {
-            throw new AssertionError("No data item received!");
-        } else {
-           // Toast.makeText(this, "itmem: " + vehicle, Toast.LENGTH_SHORT).show();
 
-        }
-        tvTitle.setText(vehicle.reg_no);
+            vehicle = getIntent().getExtras().getParcelable(AssetDetails.ASSET_ITEM_KEY);
+            if (vehicle== null) {
+                throw new AssertionError("No data item received!");
+            } else {
+                // Toast.makeText(this, "itmem: " + vehicle, Toast.LENGTH_SHORT).show();
+
+            }
+            tvTitle.setText(vehicle.reg_no);
+
+
+
+
 
 
 

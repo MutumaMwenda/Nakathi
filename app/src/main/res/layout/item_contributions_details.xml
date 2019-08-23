@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white">
+    >
 
     <RelativeLayout
         android:id="@+id/list_layout"
@@ -42,7 +42,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_toStartOf="@id/date"
                     android:layout_toLeftOf="@id/date"
-                    android:text="Tranx"
+                    android:text="Contribution Type"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_16sp"
                     android:textStyle="bold" />
@@ -57,23 +57,24 @@
                     android:visibility="gone" />
 
 
-
             <TextView
                 android:id="@+id/c_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_16"
+                android:layout_marginStart="@dimen/size_100"
+                android:layout_gravity="right"
+                android:layout_marginLeft="@dimen/size_16"
                 android:text="@string/amount"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal"
-                android:layout_marginLeft="@dimen/size_16" />
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/c_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size_16"
+                android:visibility="gone"
                 android:text="From: 31/12/2018 9:00 AM"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -85,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_4"
                 android:visibility="gone"
+
                 android:text="To: 31/12/2018 9:00 AM"
                 android:textColor="@color/black"
                 android:textSize="14sp"
