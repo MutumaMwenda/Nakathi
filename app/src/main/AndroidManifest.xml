@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.impax.nakathisacco">
+
+    <uses-sdk xmlns:tools="http://schemas.android.com/tools"
+        tools:overrideLibrary="com.thoughtbot.expandablerecyclerview" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,9 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoanActivity"
+        <activity android:name=".ExpandActivity"></activity>
+        <activity
+            android:name=".LoanActivity"
             android:parentActivityName=".MyLoansActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomePackage.SplashScreen"
             android:label="@string/app_name"
@@ -29,72 +35,71 @@
         </activity>
         <activity android:name=".HomePackage.LogIn" />
         <activity android:name=".HomePackage.signup" />
-        <activity android:name=".GuarantorActivity"
+        <activity
+            android:name=".GuarantorActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CheckUserActivity" />
-        <activity android:name=".MyAccount"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".MemberDetails"
+        <activity
+            android:name=".MyAccount"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MemberDetails"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-         <activity android:name=".AssetDetails"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AssetDetails"
             android:parentActivityName=".AssetsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".ApproveLoanActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ApproveLoanActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".CertsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CertsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".SuccessActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SuccessActivity"
             android:parentActivityName=".MyLoansActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".ContributionDetails"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ContributionDetails"
             android:parentActivityName=".AssetsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".GetGuarantorActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".AddGuarantorActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".SavingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GetGuarantorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddGuarantorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SavingsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
-        <activity android:name=".LoanBalanceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoanBalanceActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".AssetsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AssetsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
-        <activity android:name=".AssetRevenueActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AssetRevenueActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".NotificationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NotificationActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".MyLoansActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MyLoansActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

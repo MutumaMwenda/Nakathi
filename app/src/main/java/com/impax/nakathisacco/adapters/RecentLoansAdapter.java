@@ -1,18 +1,25 @@
 package com.impax.nakathisacco.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.impax.nakathisacco.ApproveLoanActivity;
 import com.impax.nakathisacco.AssetsActivity;
 import com.impax.nakathisacco.CertsActivity;
+import com.impax.nakathisacco.LoanActivity;
 import com.impax.nakathisacco.LoanBalanceActivity;
 import com.impax.nakathisacco.Model.Loan;
 import com.impax.nakathisacco.MyLoansActivity;
@@ -66,19 +73,19 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
         switch(status)
         {
             case "0":
-                loan_status = "In Review";
+                loan_status = "Guarantors";
                 break;
             case "1":
-                loan_status = "Approved";
+                loan_status = "Committee";
                 break;
             case "2":
-                loan_status = "Rejected";
+                loan_status = "Cleared";
                 break;
             case "3":
-                loan_status = "Self";
+                loan_status = "Rejected";
                 break;
             case "4":
-                loan_status = "Draft";
+                loan_status = "Paid";
                 break;
 
         }
@@ -87,6 +94,36 @@ public class RecentLoansAdapter extends RecyclerView.Adapter<RecentLoansAdapter.
         DecimalFormat format = new DecimalFormat("#,###");
         holder.tvAmount.setText(format.format(amount));
         holder.tvDate.setText(strDate);
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(mcontext, "okkkkkk", Toast.LENGTH_SHORT).show();
+
+                final Dialog dialog = new Dialog(mcontext);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.details_loan);
+                dialog.getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
+
+                RecyclerView recyclerView = dialog.findViewById(R.id.rvc_g_details);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setHasFixedSize(true);
+                RecyclerView.Adapter adapter = new DetailsLoansAdapter(mcontext,loan.guarantorModels);
+                recyclerView.setAdapter(adapter);
+
+                Button cancelButton = dialog.findViewById(R.id.btn_cancel);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+            }
+        });
     }
 
     @Override

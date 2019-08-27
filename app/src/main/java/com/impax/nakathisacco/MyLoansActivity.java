@@ -16,17 +16,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.impax.nakathisacco.Model.Artist;
 import com.impax.nakathisacco.Model.AssetsModel;
+import com.impax.nakathisacco.Model.Genre;
+import com.impax.nakathisacco.Model.GuarantorModel;
 import com.impax.nakathisacco.Model.Loan;
 import com.impax.nakathisacco.Model.LoanTypeModel;
 import com.impax.nakathisacco.Model.MessageModel;
+import com.impax.nakathisacco.Model.MyLoan;
 import com.impax.nakathisacco.Model.SavingsModel;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
 import com.impax.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.impax.nakathisacco.UtilitiesPackage.Common;
 import com.impax.nakathisacco.UtilitiesPackage.Session;
+import com.impax.nakathisacco.adapters.GenreAdapter;
 import com.impax.nakathisacco.adapters.LoanTypeAdapter;
 import com.impax.nakathisacco.adapters.LoansApplicantsAdapter;
+import com.impax.nakathisacco.adapters.MyLoansAdapter;
 import com.impax.nakathisacco.adapters.RecentLoansAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,9 +56,11 @@ public class MyLoansActivity extends AppCompatActivity {
     private Button btnLoanRequest;
     private LinearLayout linearLayout;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerView2;
     private List<Loan> loanModels = new ArrayList<>();
-    RecyclerView.Adapter adapter = null;
+    private List<MyLoan> myLoans = new ArrayList<>();
+    public MyLoansAdapter adapter;
+    LinearLayoutManager layoutManager2;
 
 
     INakathiAPI mService;
@@ -86,12 +94,34 @@ public class MyLoansActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = findViewById(R.id.rvRecentLoans);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        adapter = new RecentLoansAdapter(this,loanModels);
-        recyclerView.setAdapter(adapter);
+        //recyclerView = findViewById(R.id.rvRecentLoans);
+       // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+       // recyclerView.setLayoutManager(linearLayoutManager);
+      //  recyclerView.setHasFixedSize(true);
+      //  adapter = new RecentLoansAdapter(this,loanModels);
+       // recyclerView.setAdapter(adapter);
+       // RecyclerView recyclerView =  findViewById(R.id.recycler_view);
+       // LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        //instantiate your adapter with the list of
+        List<Genre> makeGenres = new ArrayList<>();
+       recyclerView2 = findViewById(R.id.rv_my_Loans);
+       // List<GuarantorModel> me = new ArrayList<>();
+       // List<GuarantorModel> queen = new ArrayList<>();
+       // queen.add(new GuarantorModel("1000"));
+      // queen.add(new GuarantorModel("1000"));
+     //  queen.add(new GuarantorModel("1000"));
+//
+//
+//
+       // myLoans.add(new MyLoan("HELLO",queen));
+      // myLoans.add(new MyLoan("HELLO",queen));
+     //  myLoans.add(new MyLoan("HELLO",queen));
+      Log.e(TAG, "onCreate: "+myLoans );
+//        adapter = new MyLoansAdapter(myLoans);
+        layoutManager2 = new LinearLayoutManager(this);
+//        recyclerView2.setLayoutManager(layoutManager2);
+//        recyclerView2.setAdapter(adapter);
 
     }
 
@@ -156,9 +186,9 @@ public class MyLoansActivity extends AppCompatActivity {
 
 
     private void getRecentLoans(){
-        mService.getRecentLoans(session.getIdNumber()).enqueue(new Callback<List<Loan>>() {
+        mService.getRecentLoans(session.getIdNumber()).enqueue(new Callback<List<MyLoan>>() {
             @Override
-            public void onResponse(Call<List<Loan>> call, Response<List<Loan>> response) {
+            public void onResponse(Call<List<MyLoan>> call, Response<List<MyLoan>> response) {
 
                 Log.e(TAG, "onResponse: "+response.body() );
 
@@ -171,9 +201,12 @@ public class MyLoansActivity extends AppCompatActivity {
 
                 } else {
 
-                    loanModels.clear();
-                    loanModels.addAll(response.body());
-                    adapter.notifyDataSetChanged();
+                   myLoans.clear();
+                   myLoans.addAll(response.body());
+                   adapter = new MyLoansAdapter(myLoans);
+
+                    recyclerView2.setLayoutManager(layoutManager2);
+                    recyclerView2.setAdapter(adapter);
 
 
 
@@ -181,7 +214,7 @@ public class MyLoansActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Loan>> call, Throwable t) {
+            public void onFailure(Call<List<MyLoan>> call, Throwable t) {
                 Log.e(TAG, "onFailure: "+t );
                 Toast.makeText(MyLoansActivity.this, "Error occured while processing your request", Toast.LENGTH_SHORT).show();
 

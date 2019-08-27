@@ -3,6 +3,9 @@ package com.impax.nakathisacco.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Loan {
     private  int member_id;
     private  int loan_type;
@@ -21,6 +24,10 @@ public class Loan {
     @SerializedName("date_requested")
     @Expose
     public String date_requested;
+    @SerializedName("guarantors")
+    @Expose
+    public List<GuarantorModel> guarantorModels= new ArrayList<>();
+
 
     public Loan() {
     }

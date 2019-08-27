@@ -10,6 +10,7 @@ import com.impax.nakathisacco.Model.LoanBalanceModel;
 import com.impax.nakathisacco.Model.LoanTypeModel;
 import com.impax.nakathisacco.Model.MembersModel;
 import com.impax.nakathisacco.Model.MessageModel;
+import com.impax.nakathisacco.Model.MyLoan;
 import com.impax.nakathisacco.Model.SavingsLogModel;
 import com.impax.nakathisacco.Model.SavingsModel;
 
@@ -32,7 +33,7 @@ public interface INakathiAPI {
     );
     @FormUrlEncoded
     @POST("getRecentLoans.php")
-    Call<List<Loan>>getRecentLoans(@Field("id_number")String id_number
+    Call<List<MyLoan>>getRecentLoans(@Field("id_number")String id_number
     );
     @FormUrlEncoded
     @POST("getLoanInfo.php")

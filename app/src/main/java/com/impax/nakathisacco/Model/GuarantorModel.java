@@ -1,12 +1,28 @@
 package com.impax.nakathisacco.Model;
 
-public class GuarantorModel {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class GuarantorModel implements Parcelable {
+    @SerializedName("amount")
+    @Expose
+    public String amount;
+    @SerializedName("status")
+    @Expose
+    public String status;
+    @SerializedName("name")
+    @Expose
+    public String name;
     public String member_id;
-    private String amount;
     private String loan_id;
 
+
     public GuarantorModel() {
+    }public GuarantorModel(String amount) {
+        this.amount= amount;
     }
 
     public String getMember_id() {
@@ -32,4 +48,38 @@ public class GuarantorModel {
     public void setLoan_id(String loan_id) {
         this.loan_id = loan_id;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.amount);
+        dest.writeString(this.status);
+        dest.writeString(this.name);
+        dest.writeString(this.member_id);
+        dest.writeString(this.loan_id);
+    }
+
+    protected GuarantorModel(Parcel in) {
+        this.amount = in.readString();
+        this.status = in.readString();
+        this.name = in.readString();
+        this.member_id = in.readString();
+        this.loan_id = in.readString();
+    }
+
+    public static final Parcelable.Creator<GuarantorModel> CREATOR = new Parcelable.Creator<GuarantorModel>() {
+        @Override
+        public GuarantorModel createFromParcel(Parcel source) {
+            return new GuarantorModel(source);
+        }
+
+        @Override
+        public GuarantorModel[] newArray(int size) {
+            return new GuarantorModel[size];
+        }
+    };
 }
