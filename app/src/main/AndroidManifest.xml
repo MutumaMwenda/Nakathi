@@ -18,13 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ExpandActivity"></activity>
+        <activity android:name=".HomePackage.SplashScreen"></activity>
         <activity
             android:name=".LoanActivity"
             android:parentActivityName=".MyLoansActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HomePackage.SplashScreen"
+            android:name=".ExpandActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
