@@ -471,7 +471,6 @@ public class LoanActivity extends AppCompatActivity {
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
 
-
                 if (response.isSuccessful())
                 {
                     String lastInsertedId = response.body().getMessage();

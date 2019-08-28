@@ -3,6 +3,8 @@ package com.impax.nakathisacco.Retrofit;
 import com.impax.nakathisacco.Model.AssetsModel;
 import com.impax.nakathisacco.Model.AssetsRevenueModel;
 import com.impax.nakathisacco.Model.CertsModel;
+import com.impax.nakathisacco.Model.ContributionTypes;
+import com.impax.nakathisacco.Model.ContributionsModel;
 import com.impax.nakathisacco.Model.GuarantorModel;
 import com.impax.nakathisacco.Model.Loan;
 import com.impax.nakathisacco.Model.LoanApplicantModel;
@@ -92,8 +94,20 @@ public interface INakathiAPI {
     Call<List<AssetsModel>>getTaggedVehicles(@Field("id_number")String id_number
     );
     @FormUrlEncoded
+    @POST("saveContributions.php")
+    Call<List<ContributionTypes>>saveContributions(@Field("reg_no")String reg_no,
+                                                   @Field("member_id") String member_id,
+                                                   @Field("contribution_id")String contribution_id,
+                                                   @Field("amount")String amount,
+                                                   @Field("contribution_source")String contribution_source
+    );
+    @FormUrlEncoded
     @POST("asset.php")
     Call<AssetsModel>getAssets(@Field("id_number")String id_number
+    );
+    @FormUrlEncoded
+    @POST("contributions.php")
+    Call<ContributionsModel>getContributions(@Field("reg_no")String reg_no
     );
     @FormUrlEncoded
     @POST("getSavingsLog.php")

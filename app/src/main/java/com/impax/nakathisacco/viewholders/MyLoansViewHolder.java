@@ -26,7 +26,7 @@ public class MyLoansViewHolder extends GroupViewHolder {
         tvDate = itemView.findViewById(R.id.tv_loan_date);
         tvStatus= itemView.findViewById(R.id.tv_loan_status);
         tvAmount= itemView.findViewById(R.id.tv_loan_amount);
-        tvDate = itemView.findViewById(R.id.tv_loan_date);
+        //tvDate = itemView.findViewById(R.id.tv_loan_date);
         arrow = itemView.findViewById(R.id.list_item_genre_arrow);
         icon = itemView.findViewById(R.id.list_item_genre_icon);
     }
