@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             "My Loans".toUpperCase(),
             "Guarantees".toUpperCase(),
             "Certifications".toUpperCase(),
-            "Savings".toUpperCase(),
+            "CONTRIBUTIONS",
             "Balance".toUpperCase(),
             "assets".toUpperCase(),
 
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(certsIntent);
                 break;
             case 3:
-                Intent savingsIntent = new Intent(this, SavingsActivity.class);
+                Intent savingsIntent = new Intent(this, ContributionActivity.class);
                 startActivity(savingsIntent);
                 break;
 
