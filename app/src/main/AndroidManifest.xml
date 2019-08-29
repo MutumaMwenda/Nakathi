@@ -36,7 +36,8 @@
             android:name=".GuarantorActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CheckUserActivity" />
+        <activity android:name=".GetVehicleActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MyAccount"
             android:theme="@style/AppTheme.NoActionBar" />

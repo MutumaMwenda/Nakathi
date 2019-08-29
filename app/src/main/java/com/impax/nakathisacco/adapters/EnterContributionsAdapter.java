@@ -3,6 +3,8 @@ package com.impax.nakathisacco.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +69,23 @@ public class EnterContributionsAdapter extends RecyclerView.Adapter<EnterContrib
         holder.tvContribution.setText(contributionType.name);
         holder.tvAmount.setText(contributionType.amount);
         amount=holder.tvAmount.getText().toString();
+        holder.tvAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                contributionType.amount=charSequence.toString();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
 

@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(certsIntent);
                 break;
             case 3:
-                Intent savingsIntent = new Intent(this, ContributionActivity.class);
+                Intent savingsIntent = new Intent(this, GetVehicleActivity.class);
                 startActivity(savingsIntent);
                 break;
 

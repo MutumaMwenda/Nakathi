@@ -70,7 +70,7 @@ public class ContributionActivity extends AppCompatActivity {
         adapter = new EnterContributionsAdapter(this,mcContributionTypes);
         recyclerView.setAdapter(adapter);
         mService = Common.getAPI();
-        getContributions("KAK230M");
+        getContributions("KAC230K");
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,7 @@ public class ContributionActivity extends AppCompatActivity {
                 {
                     adapter.notifyDataSetChanged();
                     String id =contributionType.id;
-                    String amount =edxAmount.getText().toString();
+                    amount =contributionType.amount;
 
                     reg_no="KFSJHB";
                     member_id="6783";
@@ -127,7 +127,7 @@ private void saveContributions(String reg_no,String member_id,String contributio
             @Override
             public void onResponse(Call<ContributionsModel>call, Response<ContributionsModel> response) {
 
-                Log.e("Data",response.body().contributions.toString());
+                Log.e("Data",response.body().toString());
                 if (  response.body().toString().equalsIgnoreCase("[]")) {
                     Toast.makeText(ContributionActivity.this, "Contributions not available", Toast.LENGTH_SHORT).show();
                 } else {
@@ -135,6 +135,7 @@ private void saveContributions(String reg_no,String member_id,String contributio
                       tvOwner.setText(response.body().name+" ("+response.body().phone_number+")");
 
                     mcContributionTypes.clear();
+
                     mcContributionTypes.addAll(response.body().contributions);
                     adapter.notifyDataSetChanged();
 
