@@ -1,6 +1,5 @@
 package com.impax.nakathisacco;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +14,15 @@ import android.widget.Toast;
 
 import com.impax.nakathisacco.Model.ContributionTypes;
 import com.impax.nakathisacco.Model.ContributionsModel;
+import com.impax.nakathisacco.Model.Loan;
 import com.impax.nakathisacco.Model.MessageModel;
 import com.impax.nakathisacco.Model.SavingsLogModel;
 import com.impax.nakathisacco.Model.SavingsModel;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
-import com.impax.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.impax.nakathisacco.UtilitiesPackage.Common;
 import com.impax.nakathisacco.UtilitiesPackage.Session;
 import com.impax.nakathisacco.adapters.EnterContributionsAdapter;
+import com.impax.nakathisacco.adapters.LoanContributionsAdapter;
 import com.impax.nakathisacco.adapters.SavingsLogAdapter;
 
 import java.lang.reflect.Array;
@@ -40,11 +40,13 @@ public class ContributionActivity extends AppCompatActivity {
     Session session;
    // String id_number,reg_no;
     private RecyclerView recyclerView;
-    private List<ContributionsModel> contributionsModels = new ArrayList<>();
+    private RecyclerView loanRecyclerView;
+    private List<Loan> mLoans = new ArrayList<>();
     private List<ContributionTypes>  mcContributionTypes = new ArrayList<>();
     RecyclerView.Adapter adapter = null;
+    RecyclerView.Adapter loanadapter = null;
 
-    private String  reg_no, member_id, contribution_id, amount, contribution_source,received_by;
+    private String  reg_no, member_id, contribution_id, amount, contribution_source,received_by,loan_id;
     private TextView tvRegno,tvOwner;
     private EditText edxAmount;
     private Button submitBtn;
@@ -60,13 +62,11 @@ public class ContributionActivity extends AppCompatActivity {
         mService = Common.getAPI();
         tvRegno=findViewById(R.id.tv_reg_no);
         tvOwner=findViewById(R.id.tv_owner_name);
-        edxAmount=findViewById(R.id.tv_amount);
-         submitBtn=findViewById(R.id.submitBtn);
-         reg_no= getIntent().getExtras().getString("regno");
+        edxAmount=findViewById(R.id.edx_contribution_amount);
+        submitBtn=findViewById(R.id.submitBtn);
 
         session = new Session(this);
         member_id = session.getIdNumber();
-
 
         recyclerView = findViewById(R.id.rvContributionsLog);
         loanRecyclerView =findViewById(R.id.rvLoansLog);
@@ -89,14 +89,12 @@ public class ContributionActivity extends AppCompatActivity {
                 Random random = new Random();
                 int randomNumber = random.nextInt(9999999- 100000) + 100000;
                 String transaction_id="TRN"+randomNumber;
-                 AppUtilits.showDialog(ContributionActivity.this);
                 for (ContributionTypes contributionType: mcContributionTypes)
                 {
 
                     adapter.notifyDataSetChanged();
                     contribution_id =contributionType.id;
                      amount =contributionType.amount;
-
                     //String amount =contributionType.getAmount();
                     received_by=session.getName();
                     reg_no=tvRegno.getText().toString();
@@ -122,20 +120,8 @@ public class ContributionActivity extends AppCompatActivity {
                     // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
                     saveLoanPayment( loan_id, member_id, amount,received_by,transaction_id);
                 }
-                AppUtilits.dismissDialog();
-                startActivity(new Intent(ContributionActivity.this,GetVehicleActivity.class));
 
-//                for(int i =0;i<mcContributionTypes.size();i++){
-//                    reg_no="KFSJHB";
-//                    member_id="6783";
-//                    contribution_id="6";
-//                    amount="700";
-//                    contribution_source="3";
-//                    mcContributionTypes.
-//
-//                    Log.e("Values",amount);
-//                    saveContributions( reg_no, member_id, contribution_id, amount, contribution_source);
-//                }
+
 
 
             }
@@ -143,14 +129,29 @@ public class ContributionActivity extends AppCompatActivity {
 
     }
 
-
-
-private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ,String received_by){
-        mService.saveContributions(reg_no, member_id, contribution_id, amount, contribution_source,received_by).enqueue(new Callback<MessageModel>() {
+    private void saveLoanPayment(String loan_id,String member_id,String amount ,String received_by,String transaction_id){
+        mService.saveLoanPayment(loan_id, member_id, amount,received_by,transaction_id).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
-                AppUtilits.dismissDialog();
+                Log.e("hhhhhhhhhhhh", "onResponse: "+response.body().message );
 
+
+
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ,String received_by,String transaction_id){
+        mService.saveContributions(reg_no, member_id, contribution_id, amount, contribution_source,received_by,transaction_id).enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                Log.e("hhhhhhhhhhhh", "onResponse: "+response.body().message );
 
             }
 

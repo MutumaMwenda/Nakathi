@@ -67,9 +67,17 @@ public class LoanContributionsAdapter extends RecyclerView.Adapter<LoanContribut
 //        Date date = new Date(ts.getTime());
 //        String strDate = formatter.format(date);
 
-        holder.tvLoanType.setText(loan.type);
-        holder.tvLoanBalance.setText(loan.loanbalance);
-        holder.tvAmount.setText(loan.amount);
+
+        if(mLoans.size()==0){
+            holder.tvLoanBalance.setVisibility(View.GONE);
+            holder.tvLoanType.setVisibility(View.GONE);
+            holder.tvAmount.setVisibility(View.GONE);
+        }else{
+            holder.tvLoanType.setText(loan.type);
+            holder.tvLoanBalance.setText(loan.loanbalance);
+            holder.tvAmount.setText(loan.amount);
+        }
+
 
         //amount=holder.edx_contribution_amount.getText();
 
