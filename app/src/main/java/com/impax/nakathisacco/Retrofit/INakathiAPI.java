@@ -95,11 +95,12 @@ public interface INakathiAPI {
     );
     @FormUrlEncoded
     @POST("saveContributions.php")
-    Call<List<ContributionTypes>>saveContributions(@Field("reg_no")String reg_no,
+    Call<MessageModel>saveContributions(@Field("reg_no")String reg_no,
                                                    @Field("member_id") String member_id,
                                                    @Field("contribution_id")String contribution_id,
                                                    @Field("amount")String amount,
-                                                   @Field("contribution_source")String contribution_source
+                                                   @Field("contribution_source")String contribution_source,
+                                                   @Field("received_by")String received_by
     );
     @FormUrlEncoded
     @POST("asset.php")

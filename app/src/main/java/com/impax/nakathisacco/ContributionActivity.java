@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.impax.nakathisacco.Model.ContributionTypes;
 import com.impax.nakathisacco.Model.ContributionsModel;
+import com.impax.nakathisacco.Model.MessageModel;
 import com.impax.nakathisacco.Model.SavingsLogModel;
 import com.impax.nakathisacco.Model.SavingsModel;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
@@ -40,7 +41,7 @@ public class ContributionActivity extends AppCompatActivity {
     private List<ContributionTypes>  mcContributionTypes = new ArrayList<>();
     RecyclerView.Adapter adapter = null;
 
-    private String  reg_no, member_id, contribution_id, amount, contribution_source;
+    private String  reg_no, member_id, contribution_id, amount, contribution_source,received_by;
     private TextView tvRegno,tvOwner;
     private EditText edxAmount;
     private Button submitBtn;
@@ -56,11 +57,11 @@ public class ContributionActivity extends AppCompatActivity {
         mService = Common.getAPI();
         tvRegno=findViewById(R.id.tv_reg_no);
         tvOwner=findViewById(R.id.tv_owner_name);
-        edxAmount=findViewById(R.id.tv_amount);
+        edxAmount=findViewById(R.id.edx_contribution_amount);
          submitBtn=findViewById(R.id.submitBtn);
 
         session = new Session(this);
-       // id_number = session.getIdNumber();
+        member_id = session.getIdNumber();
 
 
         recyclerView = findViewById(R.id.rvContributionsLog);
@@ -74,18 +75,23 @@ public class ContributionActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 for (ContributionTypes contributionType: mcContributionTypes)
                 {
-                    adapter.notifyDataSetChanged();
-                    String id =contributionType.id;
-                    String amount =edxAmount.getText().toString();
 
-                    reg_no="KFSJHB";
-                    member_id="6783";
-                    contribution_id="6";
+                    adapter.notifyDataSetChanged();
+                    contribution_id =contributionType.id;
+                     amount =contributionType.amount;
+                    //String amount =contributionType.getAmount();
+                    received_by=session.getName();
+                    reg_no=tvRegno.getText().toString();
+                   // member_id=member_id;
+                    contribution_source=contributionType.contribution_source;
                     //amount="700";
                     contribution_source="3";
-                    Log.e("Contribution",id+"    "+amount );
+                    Log.e("","Name:"+received_by);
+                  // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
+                    saveContributions( reg_no, member_id, contribution_id, amount, contribution_source,received_by);
                 }
 
 //                for(int i =0;i<mcContributionTypes.size();i++){
@@ -108,15 +114,26 @@ public class ContributionActivity extends AppCompatActivity {
 
 
 
-private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ){
-        mService.saveContributions( reg_no, member_id, contribution_id, amount, contribution_source).enqueue(new Callback<List<ContributionTypes>>() {
+private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ,String received_by){
+        mService.saveContributions(reg_no, member_id, contribution_id, amount, contribution_source,received_by).enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(Call<List<ContributionTypes>> call, Response<List<ContributionTypes>> response) {
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                Log.e("hhhhhhhhhhhh", "onResponse: "+response.body().message );
+//                if(response.isSuccessful()){
+//                    if (  response.body().toString().equalsIgnoreCase("[]")) {
+//                        Toast.makeText(ContributionActivity.this, "Contributions not available", Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        Toast.makeText(ContributionActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                }
+
 
             }
 
             @Override
-            public void onFailure(Call<List<ContributionTypes>> call, Throwable t) {
+            public void onFailure(Call<MessageModel> call, Throwable t) {
 
             }
         });

@@ -50,5 +50,13 @@ public class Session {
 
     }
 
+    public void setName(String name) {
+        prefs.edit().putString("name", name).commit();
+    }
+
+    public String getName() {
+        String name = prefs.getString("name","");
+        return name;
+    }
 
 }

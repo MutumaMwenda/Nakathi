@@ -3,6 +3,8 @@ package com.impax.nakathisacco.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.impax.nakathisacco.ContributionActivity;
 import com.impax.nakathisacco.Model.ContributionTypes;
 import com.impax.nakathisacco.Model.ContributionsModel;
 import com.impax.nakathisacco.Model.Loan;
@@ -66,7 +69,27 @@ public class EnterContributionsAdapter extends RecyclerView.Adapter<EnterContrib
 
         holder.tvContribution.setText(contributionType.name);
         holder.tvAmount.setText(contributionType.amount);
-        amount=holder.tvAmount.getText().toString();
+        //amount=holder.edx_contribution_amount.getText();
+
+        holder.tvAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                contributionType.amount= charSequence.toString();
+
+              //  notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
 
@@ -90,7 +113,7 @@ public class EnterContributionsAdapter extends RecyclerView.Adapter<EnterContrib
             super(itemView);
             tvContribution = itemView.findViewById(R.id.tv_contribution);
             //tvExpiryDate = itemView.findViewById(R.id.tv_expiryDate);
-            tvAmount = itemView.findViewById(R.id.tv_amount);
+            tvAmount = itemView.findViewById(R.id.edx_contribution_amount);
             // tvDepositedDate = itemView.findViewById(R.id.tv_deposited_date);
             // imageView = itemView.findViewById(R.id.list_imageview);
             mView = itemView;
