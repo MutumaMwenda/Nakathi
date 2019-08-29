@@ -48,7 +48,7 @@ public class ContributionActivity extends AppCompatActivity {
     RecyclerView.Adapter adapter = null;
     RecyclerView.Adapter loanadapter = null;
 
-    private String  reg_no, member_id, contribution_id, amount, contribution_source,received_by,loan_id;
+    private String  reg_no, member_id, contribution_id, amount, contribution_source,received_by,loan_id,owner_id;
     private TextView tvRegno,tvOwner;
     private EditText edxAmount;
     private Button submitBtn;
@@ -68,7 +68,7 @@ public class ContributionActivity extends AppCompatActivity {
         submitBtn=findViewById(R.id.submitBtn);
 
         session = new Session(this);
-        member_id = session.getIdNumber();
+        received_by= session.getIdNumber();
 
         recyclerView = findViewById(R.id.rvContributionsLog);
         loanRecyclerView =findViewById(R.id.rvLoansLog);
@@ -92,6 +92,7 @@ public class ContributionActivity extends AppCompatActivity {
                 Random random = new Random();
                 int randomNumber = random.nextInt(9999999- 100000) + 100000;
                 String transaction_id="TRN"+randomNumber;
+                member_id= owner_id;
                 for (ContributionTypes contributionType: mcContributionTypes)
                 {
 
@@ -99,7 +100,7 @@ public class ContributionActivity extends AppCompatActivity {
                     contribution_id =contributionType.id;
                      amount =contributionType.amount;
                     //String amount =contributionType.getAmount();
-                    received_by=session.getName();
+                   // received_by=session.getName();
                     reg_no=tvRegno.getText().toString();
                    // member_id=member_id;
                     contribution_source=contributionType.contribution_source;
@@ -120,11 +121,11 @@ public class ContributionActivity extends AppCompatActivity {
                     reg_no=tvRegno.getText().toString();
                     contribution_source="2";
                     Log.e("","Name:"+amount);
-                    // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
+                     Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
                     saveLoanPayment( loan_id, member_id, amount,received_by,transaction_id);
                 }
-                AppUtilits.dismissDialog();
-                startActivity(new Intent(ContributionActivity.this,GetVehicleActivity.class));
+               // AppUtilits.dismissDialog();
+              //  startActivity(new Intent(ContributionActivity.this,GetVehicleActivity.class));
 
 
 
@@ -167,15 +168,17 @@ private void saveContributions(String reg_no,String member_id,String contributio
         });
 
 }
-    private void getContributions(String reg_no) {
+    private void getContributions(final String reg_no) {
         mService.getContributions(reg_no).enqueue(new Callback<ContributionsModel>() {
             @Override
             public void onResponse(Call<ContributionsModel>call, Response<ContributionsModel> response) {
+                Log.e("ResPONSE", "onResponse: "+response.body() );
 
-                Log.e("Data",response.body().contributions.toString());
-                if (  response.body().toString().equalsIgnoreCase("[]")) {
+                if (  response.body().contributions==null||response.body().toString().equalsIgnoreCase("[]")) {
                     Toast.makeText(ContributionActivity.this, "Contributions not available", Toast.LENGTH_SHORT).show();
                 } else {
+                      //reg_no = response.body().reg_no;
+                      owner_id = response.body().owner_id;
                       tvRegno.setText(response.body().reg_no);
                       tvOwner.setText(response.body().name+" ("+response.body().phone_number+")");
 
