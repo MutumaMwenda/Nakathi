@@ -1,5 +1,6 @@
 package com.impax.nakathisacco;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.impax.nakathisacco.Model.MessageModel;
 import com.impax.nakathisacco.Model.SavingsLogModel;
 import com.impax.nakathisacco.Model.SavingsModel;
 import com.impax.nakathisacco.Retrofit.INakathiAPI;
+import com.impax.nakathisacco.UtilitiesPackage.AppUtilits;
 import com.impax.nakathisacco.UtilitiesPackage.Common;
 import com.impax.nakathisacco.UtilitiesPackage.Session;
 import com.impax.nakathisacco.adapters.EnterContributionsAdapter;
@@ -82,7 +84,8 @@ public class ContributionActivity extends AppCompatActivity {
         loanRecyclerView.setAdapter(loanadapter);
 
         mService = Common.getAPI();
-        getContributions("KAK230M");
+        reg_no= getIntent().getExtras().getString("regno");
+        getContributions(reg_no);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +123,8 @@ public class ContributionActivity extends AppCompatActivity {
                     // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
                     saveLoanPayment( loan_id, member_id, amount,received_by,transaction_id);
                 }
+                AppUtilits.dismissDialog();
+                startActivity(new Intent(ContributionActivity.this,GetVehicleActivity.class));
 
 
 
