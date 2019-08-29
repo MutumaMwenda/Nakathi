@@ -9,18 +9,19 @@ import java.util.List;
 public class Loan {
 
     private  int member_id;
-    @SerializedName("loan_type")
+    @SerializedName("type")
     @Expose
-    private  String loan_type;
+    public  String type;
+
     @SerializedName("id")
     @Expose
-    private  String id;
+    public  String id;
     @SerializedName("received_by")
     @Expose
     public String received_by;
     @SerializedName("amount")
     @Expose
-    public int amount;
+    public String amount;
     @SerializedName("loanbalance")
     @Expose
     public String loanbalance;
@@ -50,18 +51,18 @@ public class Loan {
     }
 
     public String getLoan_type() {
-        return loan_type;
+        return type;
     }
 
-    public void setLoan_type(String loan_type) {
-        this.loan_type = loan_type;
+    public void setLoan_type(String type) {
+        this.type = type;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 }

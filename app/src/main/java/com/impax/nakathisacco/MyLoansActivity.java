@@ -94,31 +94,11 @@ public class MyLoansActivity extends AppCompatActivity {
             }
         });
 
-        //recyclerView = findViewById(R.id.rvRecentLoans);
-       // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-       // recyclerView.setLayoutManager(linearLayoutManager);
-      //  recyclerView.setHasFixedSize(true);
-      //  adapter = new RecentLoansAdapter(this,loanModels);
-       // recyclerView.setAdapter(adapter);
-       // RecyclerView recyclerView =  findViewById(R.id.recycler_view);
-       // LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
-        //instantiate your adapter with the list of
         List<Genre> makeGenres = new ArrayList<>();
        recyclerView2 = findViewById(R.id.rv_my_Loans);
-       // List<GuarantorModel> me = new ArrayList<>();
-       // List<GuarantorModel> queen = new ArrayList<>();
-       // queen.add(new GuarantorModel("1000"));
-      // queen.add(new GuarantorModel("1000"));
-     //  queen.add(new GuarantorModel("1000"));
-//
-//
-//
-       // myLoans.add(new MyLoan("HELLO",queen));
-      // myLoans.add(new MyLoan("HELLO",queen));
-     //  myLoans.add(new MyLoan("HELLO",queen));
+
       Log.e(TAG, "onCreate: "+myLoans );
-//        adapter = new MyLoansAdapter(myLoans);
+
         layoutManager2 = new LinearLayoutManager(this);
 //        recyclerView2.setLayoutManager(layoutManager2);
 //        recyclerView2.setAdapter(adapter);
