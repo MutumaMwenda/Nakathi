@@ -31,7 +31,7 @@ public class CertsActivity extends AppCompatActivity {
     private static final String TAG = CertsActivity.class.getSimpleName();
 
     Session session;
-    String id_number;
+    String id_number,reg_no;
     private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;

@@ -7,14 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Loan {
+
     private  int member_id;
-    private  int loan_type;
+    @SerializedName("loan_type")
+    @Expose
+    private  String loan_type;
+    @SerializedName("id")
+    @Expose
+    private  String id;
     @SerializedName("received_by")
     @Expose
     public String received_by;
     @SerializedName("amount")
     @Expose
     public int amount;
+    @SerializedName("loanbalance")
+    @Expose
+    public String loanbalance;
     @SerializedName("p_amount")
     @Expose
     public String p_amount;
@@ -40,11 +49,11 @@ public class Loan {
         this.member_id = member_id;
     }
 
-    public int getLoan_type() {
+    public String getLoan_type() {
         return loan_type;
     }
 
-    public void setLoan_type(int loan_type) {
+    public void setLoan_type(String loan_type) {
         this.loan_type = loan_type;
     }
 

@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:fillViewport="true"
-    tools:context=".CheckUserActivity">
+    tools:context=".GetVehicleActivity">
 
 
     <LinearLayout
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="Enter Membership Id" />
+                android:hint="Reg NO" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -60,7 +60,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/button2"
-            android:text="Check user"
+            android:text="NEXT"
 
             />
 

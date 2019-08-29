@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CheckUserActivity extends AppCompatActivity {
+public class GetVehicleActivity extends AppCompatActivity {
 
     private Button mCheckUser;
     private EditText editTextNationalId;
@@ -31,10 +31,12 @@ public class CheckUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkuser);
+        setContentView(R.layout.activity_check_vehicle);
         mService = Common.getAPI();
         editTextNationalId = findViewById(R.id.nationaIdEDX);
         session = new Session(this);
+        setTitle("Search Vehicle");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -66,10 +68,10 @@ public class CheckUserActivity extends AppCompatActivity {
                 String msg = response.body().getMessage();
                 if(msg.equalsIgnoreCase("true")){
                     session.setIdNumber(nationalID);
-                    Intent intent= new Intent(CheckUserActivity.this, signup.class);
+                    Intent intent= new Intent(GetVehicleActivity.this, signup.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(CheckUserActivity.this,"The user does not exist",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GetVehicleActivity.this,"The user does not exist",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -77,7 +79,7 @@ public class CheckUserActivity extends AppCompatActivity {
             public void onFailure(Call<MessageModel> call, Throwable t) {
                 Log.e(TAG, "onFailure: "+t );
                 AppUtilits.dismissDialog();
-                Toast.makeText(CheckUserActivity.this, "Error occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GetVehicleActivity.this, "Error occured", Toast.LENGTH_SHORT).show();
 
             }
         });

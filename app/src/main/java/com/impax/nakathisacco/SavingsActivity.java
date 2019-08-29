@@ -31,7 +31,7 @@ public class SavingsActivity extends AppCompatActivity {
     private static final String TAG = SavingsActivity.class.getSimpleName();
 
     Session session;
-    String id_number;
+    String id_number,reg_no;
     private RecyclerView recyclerView;
     private List<SavingsLogModel> savingsLogModels = new ArrayList<>();
     RecyclerView.Adapter adapter = null;
