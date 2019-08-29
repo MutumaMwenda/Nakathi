@@ -107,6 +107,14 @@ public interface INakathiAPI {
                                                    @Field("transaction_id")String transaction_id
     );
     @FormUrlEncoded
+    @POST("saveLoanPayment.php")
+    Call<MessageModel>saveLoanPayment(@Field("loan_id")String loan_id,
+                                        @Field("member_id") String member_id,
+                                        @Field("amount")String amount,
+                                        @Field("received_by")String received_by,
+                                        @Field("transaction_id")String transaction_id
+    );
+    @FormUrlEncoded
     @POST("asset.php")
     Call<AssetsModel>getAssets(@Field("id_number")String id_number
     );

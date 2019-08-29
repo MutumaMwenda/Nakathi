@@ -65,17 +65,24 @@ public class ContributionActivity extends AppCompatActivity {
          reg_no= getIntent().getExtras().getString("regno");
 
         session = new Session(this);
-        received_by = session.getIdNumber();
+        member_id = session.getIdNumber();
 
 
         recyclerView = findViewById(R.id.rvContributionsLog);
+        loanRecyclerView =findViewById(R.id.rvLoansLog);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
+        loanRecyclerView.setLayoutManager(linearLayoutManager2);
+        loanRecyclerView.setHasFixedSize(true);
+        loanadapter=new LoanContributionsAdapter(this,mLoans);
         adapter = new EnterContributionsAdapter(this,mcContributionTypes);
         recyclerView.setAdapter(adapter);
+        loanRecyclerView.setAdapter(loanadapter);
+
         mService = Common.getAPI();
-        getContributions(reg_no);
+        getContributions("KAK230M");
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,15 +98,29 @@ public class ContributionActivity extends AppCompatActivity {
                      amount =contributionType.amount;
 
                     //String amount =contributionType.getAmount();
-                   // received_by=session.getName();
+                    received_by=session.getName();
                     reg_no=tvRegno.getText().toString();
                    // member_id=member_id;
                     contribution_source=contributionType.contribution_source;
-
-                    contribution_source="3";
-                   // Log.e("","Name:"+received_by);
-                  //Log.e(received_by+"Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id+"trans"+transaction_id );
+                    //amount="700";
+                    contribution_source="2";
+                    Log.e("","Name:"+received_by);
+                  // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
                     saveContributions( reg_no, member_id, contribution_id, amount, contribution_source,received_by,transaction_id);
+                }
+                for (Loan loans: mLoans)
+                {
+
+                    loanadapter.notifyDataSetChanged();
+                    contribution_id =loans.id;
+                    amount =loans.amount;
+                    loan_id=loans.id;
+                    received_by=session.getIdNumber();
+                    reg_no=tvRegno.getText().toString();
+                    contribution_source="2";
+                    Log.e("","Name:"+amount);
+                    // Log.e("Contribution","   amt: "+amount+"src:"+contribution_source+"reg:"+reg_no+"cont:"+contribution_id+"mem:"+member_id );
+                    saveLoanPayment( loan_id, member_id, amount,received_by,transaction_id);
                 }
                 AppUtilits.dismissDialog();
                 startActivity(new Intent(ContributionActivity.this,GetVehicleActivity.class));
@@ -124,8 +145,8 @@ public class ContributionActivity extends AppCompatActivity {
 
 
 
-private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ,String received_by,String transaction_id){
-        mService.saveContributions(reg_no, member_id, contribution_id, amount, contribution_source,received_by,transaction_id).enqueue(new Callback<MessageModel>() {
+private void saveContributions(String reg_no,String member_id,String contribution_id,String amount,String contribution_source ,String received_by){
+        mService.saveContributions(reg_no, member_id, contribution_id, amount, contribution_source,received_by).enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 AppUtilits.dismissDialog();
@@ -149,13 +170,15 @@ private void saveContributions(String reg_no,String member_id,String contributio
                 if (  response.body().toString().equalsIgnoreCase("[]")) {
                     Toast.makeText(ContributionActivity.this, "Contributions not available", Toast.LENGTH_SHORT).show();
                 } else {
-                     member_id = response.body().owner_id;
                       tvRegno.setText(response.body().reg_no);
                       tvOwner.setText(response.body().name+" ("+response.body().phone_number+")");
 
                     mcContributionTypes.clear();
                     mcContributionTypes.addAll(response.body().contributions);
                     adapter.notifyDataSetChanged();
+                    mLoans.clear();
+                    mLoans.addAll(response.body().loans);
+                    loanadapter.notifyDataSetChanged();
 
 
                 }
