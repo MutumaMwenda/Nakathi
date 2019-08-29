@@ -58,6 +58,7 @@ public class ContributionActivity extends AppCompatActivity {
         tvOwner=findViewById(R.id.tv_owner_name);
         edxAmount=findViewById(R.id.tv_amount);
          submitBtn=findViewById(R.id.submitBtn);
+        reg_no= getIntent().getExtras().getString("regno");
 
         session = new Session(this);
        // id_number = session.getIdNumber();
@@ -70,7 +71,7 @@ public class ContributionActivity extends AppCompatActivity {
         adapter = new EnterContributionsAdapter(this,mcContributionTypes);
         recyclerView.setAdapter(adapter);
         mService = Common.getAPI();
-        getContributions("KAC230K");
+        getContributions(reg_no);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,11 +81,8 @@ public class ContributionActivity extends AppCompatActivity {
                     String id =contributionType.id;
                     amount =contributionType.amount;
 
-                    reg_no="KFSJHB";
-                    member_id="6783";
-                    contribution_id="6";
-                    //amount="700";
-                    contribution_source="3";
+
+                    contribution_source="2";
                     Log.e("Contribution",id+"    "+amount );
                 }
 

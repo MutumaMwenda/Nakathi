@@ -19,8 +19,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ContributionActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".GetVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".GetVehicleActivity"
+            android:parentActivityName=".MainActivity"
+             />
         <activity android:name=".ExpandActivity" />
         <activity
             android:name=".LoanActivity"
