@@ -82,7 +82,7 @@ public class ContributionActivity extends AppCompatActivity {
         loanRecyclerView.setAdapter(loanadapter);
 
         mService = Common.getAPI();
-        getContributions("KAK230M");
+        getContributions("KAM605N");
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,8 +152,6 @@ private void saveContributions(String reg_no,String member_id,String contributio
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                 Log.e("hhhhhhhhhhhh", "onResponse: "+response.body().message );
-
-
 
             }
 
