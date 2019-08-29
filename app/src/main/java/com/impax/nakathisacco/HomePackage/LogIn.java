@@ -34,8 +34,6 @@ public class LogIn extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_login);
-
-
         btnLogin=findViewById(R.id.button3);
         btnSignup=findViewById(R.id.btnSignup);
         idText= findViewById(R.id.editText);
@@ -128,11 +126,13 @@ public class LogIn extends AppCompatActivity {
 
                     String idNumber=response.body().id_number;
                     String fullnames = response.body().name;
+
                     String  email = response.body().email;
                     String phone_number = response.body().phone_number;
                     Log.e(TAG, "onResponse: "+id_number+' ' +fullnames+' '+email+' '+phone_number );
                     session.setLoggedIn(true);
                     session.setIdNumber(idNumber);
+                    session.setName(fullnames);
                     Intent intent= new Intent(LogIn.this, MainActivity.class);
                     startActivity(intent);
 

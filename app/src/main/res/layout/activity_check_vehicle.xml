@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="24dp">
+        >
 
 
 
@@ -29,24 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
             android:inputType="text"
             android:maxLines="1"/>
 
         <TextView
             android:id="@+id/selected_item"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_below="@id/auto_complete_edit_text"
-            android:layout_marginTop="20dp"
-            android:padding="20dp"/>
-
-
-
-
-
-
-
+            android:layout_margin="8dp"
+            />
 
         <Button
             android:id="@+id/btnNext"
@@ -54,14 +48,48 @@
             android:layout_width="match_parent"
             android:textColor="@android:color/white"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
+            android:layout_margin="8dp"
             android:background="@drawable/button2"
             android:text="NEXT"
 
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="@dimen/size_16"
+            android:text="Recent Tranxs"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="normal" />
+        <TextView
+            android:id="@+id/tv_display_no_trans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/size_16"
+            android:layout_marginEnd="@dimen/size_4"
+            android:layout_marginRight="@dimen/size_4"
+            android:gravity="center"
+            android:text="No Transactions"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="normal" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:id="@+id/ly_trans"
+    android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/size_8"
+            android:layout_marginTop="@dimen/size_8"
+            android:layout_marginRight="@dimen/size_8"
+            android:layout_marginBottom="@dimen/size_8"
+            tools:listitem="@layout/item_contributions" />
+</LinearLayout>
 
 
     </LinearLayout>

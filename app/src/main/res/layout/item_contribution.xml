@@ -36,7 +36,7 @@
                     android:textStyle="normal" />
 
                 <EditText
-                    android:id="@+id/tv_amount"
+                    android:id="@+id/edx_contribution_amount"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
