@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         });
         getAccountInfo();
         getNotifications();
-        sendJson();
+       // sendJson();
 
 
          mService = Common.getAPI();
