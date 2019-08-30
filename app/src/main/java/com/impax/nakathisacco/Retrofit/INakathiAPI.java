@@ -1,5 +1,6 @@
 package com.impax.nakathisacco.Retrofit;
 
+import com.google.gson.JsonObject;
 import com.impax.nakathisacco.Model.AssetsModel;
 import com.impax.nakathisacco.Model.AssetsRevenueModel;
 import com.impax.nakathisacco.Model.CertsModel;
@@ -21,6 +22,7 @@ import com.impax.nakathisacco.Model.Vehicle;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -156,6 +158,10 @@ public interface INakathiAPI {
     @FormUrlEncoded
     @POST("getVehicleCerts.php")
     Call<List<CertsModel>>getVehicleCerts(@Field("reg_no")String reg_no
+    );
+    @FormUrlEncoded
+    @POST("sendJson.php")
+    Call<JsonObject>sendJson(@Field("data")String data
     );
     @FormUrlEncoded
     @POST("getMemberInfo.php")

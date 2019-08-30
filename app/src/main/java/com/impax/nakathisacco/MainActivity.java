@@ -26,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.impax.nakathisacco.HomePackage.LogIn;
 import com.impax.nakathisacco.HomePackage.SplashScreen;
 import com.impax.nakathisacco.Model.MembersModel;
@@ -36,6 +39,8 @@ import com.impax.nakathisacco.UtilitiesPackage.Common;
 import com.impax.nakathisacco.UtilitiesPackage.ItemsDecoration;
 import com.impax.nakathisacco.UtilitiesPackage.Session;
 import com.impax.nakathisacco.adapters.HomeAdapter;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -110,6 +115,7 @@ public class MainActivity extends AppCompatActivity
         });
         getAccountInfo();
         getNotifications();
+        sendJson();
 
 
          mService = Common.getAPI();
@@ -149,6 +155,49 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+    private void sendJson() {
+        final JsonObject req = new JsonObject();
+        try {
+
+            JsonArray datas = new JsonArray();
+
+            JsonObject object = new JsonObject();
+            object.addProperty("dat1","1");
+            object.addProperty("dat2", "");
+            object.addProperty("dat3", "");
+            object.addProperty("dat4", "");
+            object.addProperty("dat5", "");
+
+            datas.add(object);
+
+
+            req.addProperty("logTime", "");
+            req.addProperty("datas", new Gson().toJson(datas));
+            Log.e(TAG, "sendJson: "+req );
+
+            mService.sendJson(String.valueOf(req)).enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    Log.e(TAG, "onResponse: "+response.body().toString() );
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e(TAG, "onFailure: "+t );
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+    }
+
 
     private void getAccountInfo() {
         //AppUtilits.showDialog(this);
