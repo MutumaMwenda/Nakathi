@@ -12,6 +12,8 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
@@ -36,8 +38,12 @@ public class MyLoansViewHolder extends GroupViewHolder {
             double amount = Double.parseDouble(((MyLoan) myloan).p_amount);
             DecimalFormat format = new DecimalFormat("#,###");
             tvAmount.setText(format.format(amount));
+            SimpleDateFormat formatter = new SimpleDateFormat("d/M/y");
+            java.sql.Timestamp ts = java.sql.Timestamp.valueOf(myloan.getTitle()) ;
+            Date date = new Date(ts.getTime());
+            String strDate = formatter.format(date);
 
-            tvDate.setText(myloan.getTitle());
+            tvDate.setText(strDate);
             //tvStatus.setText(myloan.getTitle());
             String loan_status = null;
             String status = ((MyLoan) myloan).status;

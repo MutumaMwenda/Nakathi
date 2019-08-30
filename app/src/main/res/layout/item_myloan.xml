@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/list_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:layout_margin="@dimen/size_8"
         android:background="#ffffff">
 
@@ -30,6 +30,7 @@
             android:layout_weight="1"            android:layout_height="42dp"
             android:layout_marginTop="@dimen/size_8"
             android:text=" 12000"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="normal" />
